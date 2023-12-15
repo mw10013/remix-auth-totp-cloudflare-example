@@ -10,7 +10,6 @@ import invariant from "tiny-invariant";
 
 export const cloudflareEnvSchema = z.object({
   ENVIRONMENT: z.string().min(1),
-  HOST_URL: z.string().min(1),
   SESSION_SECRET: z.string().min(1),
   TOTP_SECRET: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
@@ -35,7 +34,7 @@ export function hookAuth({
   TOTP_SECRET,
   DB,
 }: CloudflareEnv) {
-  const authSessionStorage = createCookieSessionStorage({
+  const sessionStorage = createCookieSessionStorage({
     cookie: {
       name: "_auth",
       path: "/",
@@ -46,7 +45,7 @@ export function hookAuth({
     },
   });
   const db = drizzle(DB);
-  const authenticator = new Authenticator<User>(authSessionStorage, {
+  const authenticator = new Authenticator<User>(sessionStorage, {
     throwOnError: true,
   });
   authenticator.use(
@@ -89,14 +88,23 @@ export function hookAuth({
         },
       },
       async ({ email }) => {
-        let [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+        let [user] = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, email))
+          .limit(1);
         if (!user) {
-            [user] = await db.insert(users).values({ email }).returning();
-            if (!user) throw new Error("Unable to create user.");
+          [user] = await db.insert(users).values({ email }).returning();
+          if (!user) throw new Error("Unable to create user.");
         }
         return user;
       },
     ),
   );
-  return { authenticator };
+  return {
+    authenticator,
+    getSession: sessionStorage.getSession,
+    commitSession: sessionStorage.commitSession,
+    destroySession: sessionStorage.destroySession,
+  };
 }

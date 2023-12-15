@@ -16,10 +16,11 @@
     "drizzle:generate": "drizzle-kit generate:sqlite",
     "drizzle:up": "drizzle-kit up:sqlite",
     "drizzle:check": "drizzle-kit check:sqlite",
+    "drizzle:drop": "drizzle-kit drop",
     "d1:migrate:list": "wrangler d1 migrations list ratce-db --local",
     "d1:migrate:apply": "wrangler d1 migrations apply ratce-db --local",
-    "d1:reset": "tsx scripts/d1_reset.ts",
-    "d1:push": "tsx scripts/d1_push.ts",
+    "d1:reset": "tsx scripts/d1-reset.ts",
+    "d1:push": "tsx scripts/d1-push.ts",
     "script": "tsx --env-file=.dev.vars"
   },
   "dependencies": {

@@ -1,5 +1,8 @@
-import { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { users } from "~/lib/db/schema";
 import { hookAuth, hookEnv } from "~/lib/hooks.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -8,12 +11,10 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const session = await authenticator.isAuthenticated(request, {
     failureRedirect: "/signin-up",
   });
-
-  //   const user = await prisma.user.findUnique({ where: { id: session.id } })
-  //   if (!user) return redirect('/login')
-
-  //   return json({ user } as const)
-  return { authenticator, session };
+  const db = drizzle(env.DB);
+  const [user] = await db.select().from(users).where(eq(users.id, session.id));
+  if (!user) return redirect("/signin-up");
+  return { user, authenticator, session };
 }
 
 export default function Route() {

@@ -1,35 +1,60 @@
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { sendAuthEmail } from "~/lib/email.server";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  json,
+} from "@remix-run/cloudflare";
+import { Form, useLoaderData } from "@remix-run/react";
+import { drizzle } from "drizzle-orm/d1";
+import { totps } from "~/lib/db/schema";
 import { hookAuth, hookEnv } from "~/lib/hooks.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const { env } = hookEnv(context.env);
-  const { authenticator } = hookAuth(env);
-  return {
-    authenticator,
-  };
+  const { authenticator, getSession, commitSession } = hookAuth(env);
+  await authenticator.isAuthenticated(request, {
+    successRedirect: "/account",
+  });
+
+  const cookie = await getSession(request.headers.get("cookie"));
+  const authEmail = cookie.get("auth:email");
+  const authError = cookie.get(authenticator.sessionErrorKey);
+
+  const db = drizzle(env.DB);
+  const totpsResult = await db.select().from(totps).all();
+  console.log("totpsResult", totpsResult);
+
+  // Commit session to clear any `flash` error message.
+  return json(
+    { totpsResult, authEmail, authError, authenticator },
+    {
+      headers: {
+        "set-cookie": await commitSession(cookie),
+      },
+    },
+  );
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
+  const url = new URL(request.url);
+  const currentPath = url.pathname;
   const { env } = hookEnv(context.env);
   const { authenticator } = hookAuth(env);
 
-  await sendAuthEmail({
-    email: "mw10013@gmail.com",
-    code: "123456",
-    magicLink: "/magic-link",
-    resendApiKey: env.RESEND_API_KEY,
+  await authenticator.authenticate("TOTP", request, {
+    // The `successRedirect` route will be used to verify the OTP code.
+    // This could be the current pathname or any other route that renders the verification form.
+    successRedirect: "/verify",
+
+    // The `failureRedirect` route will be used to render any possible error.
+    // If not provided, ErrorBoundary will be rendered instead.
+    failureRedirect: currentPath,
   });
-  return {
-    authenticator,
-  };
 }
 
 export default function Route() {
   const data = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const { authEmail, authError } = data;
   const error = null;
   return (
     <div className="mx-auto max-w-sm p-8">
@@ -47,24 +72,14 @@ export default function Route() {
         </CardHeader>
         <CardBody>
           <Form method="post">
-            {/* {formServerError && formServerError.formErrors.length > 0 && (
-                <small className="text-small text-danger-500">
-                  {formServerError.formErrors.join(". ")}
-                </small>
-              )} */}
             <Input
               type="email"
               name="email"
               label="Email"
+              required
               variant="bordered"
-              // validationState={
-              //   formServerError?.fieldErrors.email ? "invalid" : undefined
-              // }
-              // errorMessage={
-              //   formServerError?.fieldErrors.email
-              //     ? formServerError.fieldErrors.email.join(", ")
-              //     : ""
-              // }
+              isInvalid={!!authError}
+              errorMessage={authError?.message}
             />
             <div className="space-y-2 py-2">
               <div className="flex flex-col items-center"></div>
@@ -74,7 +89,6 @@ export default function Route() {
             </div>
           </Form>
           <pre>{JSON.stringify(data, null, 2)}</pre>
-          <pre>{JSON.stringify(actionData, null, 2)}</pre>
         </CardBody>
       </Card>
     </div>
