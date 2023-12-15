@@ -3,6 +3,10 @@ import { z } from "zod";
 import { Authenticator } from "remix-auth";
 import { TOTPStrategy } from "remix-auth-totp-dev";
 import { sendAuthEmail } from "~/lib/email.server";
+import { drizzle } from "drizzle-orm/d1";
+import { User, totps, users } from "~/lib/db/schema";
+import { eq } from "drizzle-orm";
+import invariant from "tiny-invariant";
 
 export const cloudflareEnvSchema = z.object({
   ENVIRONMENT: z.string().min(1),
@@ -24,14 +28,13 @@ export function hookEnv(env: unknown) {
   return { env };
 }
 
-interface User {
-  id: string;
-  email: string;
-  //   createdAt: Date | null;
-  //   updatedAt: Date | null;
-}
-
-export function hookAuth({SESSION_SECRET, ENVIRONMENT, RESEND_API_KEY,TOTP_SECRET, DB}: CloudflareEnv) {
+export function hookAuth({
+  SESSION_SECRET,
+  ENVIRONMENT,
+  RESEND_API_KEY,
+  TOTP_SECRET,
+  DB,
+}: CloudflareEnv) {
   const authSessionStorage = createCookieSessionStorage({
     cookie: {
       name: "_auth",
@@ -42,6 +45,7 @@ export function hookAuth({SESSION_SECRET, ENVIRONMENT, RESEND_API_KEY,TOTP_SECRE
       secure: ENVIRONMENT === "production",
     },
   });
+  const db = drizzle(DB);
   const authenticator = new Authenticator<User>(authSessionStorage, {
     throwOnError: true,
   });
@@ -53,7 +57,7 @@ export function hookAuth({SESSION_SECRET, ENVIRONMENT, RESEND_API_KEY,TOTP_SECRE
 
         storeTOTP: async (data) => {
           console.log("storeTOTP:", data);
-        //   await prisma.totp.create({ data });
+          await db.insert(totps).values(data);
         },
         sendTOTP: async ({ email, code, magicLink }) => {
           console.log("sendTOTP:", { email, code, magicLink });
@@ -66,19 +70,31 @@ export function hookAuth({SESSION_SECRET, ENVIRONMENT, RESEND_API_KEY,TOTP_SECRE
         },
         handleTOTP: async (hash, data) => {
           console.log("handleTOTP:", { hash, data });
-          return {
-            hash,
-            attempts: 0,
-            active: true,
-            expiresAt: new Date(Date.now() + 60 * 1000),
-          };
+          const [totp] = await db
+            .select()
+            .from(totps)
+            .where(eq(totps.hash, hash))
+            .limit(1);
+          invariant(totp, "TOTP not found");
+          if (data) {
+            const [updatedTotp] = await db
+              .update(totps)
+              .set(data)
+              .where(eq(totps.hash, hash))
+              .returning();
+            invariant(updatedTotp, "TOTP update not found");
+            return updatedTotp;
+          }
+          return totp;
         },
       },
       async ({ email }) => {
-        return {
-          id: "userid789",
-          email,
-        };
+        let [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+        if (!user) {
+            [user] = await db.insert(users).values({ email }).returning();
+            if (!user) throw new Error("Unable to create user.");
+        }
+        return user;
       },
     ),
   );

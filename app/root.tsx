@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import {
   Link as RemixLink,
   Links,
@@ -17,6 +17,23 @@ import {
   NavbarItem,
   NextUIProvider,
 } from "@nextui-org/react";
+
+/**
+ * We take simplistic approach to meta and only define it in root.
+ * Will need to revisit if meta is needed in child routes.
+ * @see <a href="https://remix.run/docs/en/main/route/meta-v2#avoid-meta-in-parent-routes">Avoid meta in parent routes</a>
+ */
+export const meta: MetaFunction = () => {
+  // https://remix.run/docs/en/main/route/meta-v2#avoid-meta-in-parent-routes
+  return [
+    { title: "Remix Auth Totp Cloudflare Example" },
+    {
+      name: "description",
+      content:
+        "This app is an example of using remix-auth-totp with cloudflare pages, d1, and kv.",
+    },
+  ];
+};
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
