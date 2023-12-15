@@ -7,8 +7,20 @@
     "build": "remix build",
     "dev": "remix dev --manual -c \"npm run start\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "wrangler pages dev --compatibility-date=2023-12-14 ./public",
-    "typecheck": "tsc"
+    "start": "wrangler pages dev --compatibility-date=2023-12-15 ./public --kv=kv --d1=db",
+    "typecheck": "tsc",
+    "tail:prod": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example --environment production",
+    "tail:preview": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example --environment preview",
+    "tail:deploy": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example",
+    "tunnel": "cloudflared tunnel --url http://localhost:8788",
+    "drizzle:generate": "drizzle-kit generate:sqlite",
+    "drizzle:up": "drizzle-kit up:sqlite",
+    "drizzle:check": "drizzle-kit check:sqlite",
+    "d1:migrate:list": "wrangler d1 migrations list ratce-db --local",
+    "d1:migrate:apply": "wrangler d1 migrations apply ratce-db --local",
+    "d1:reset": "tsx scripts/d1_reset.ts",
+    "d1:push": "tsx scripts/d1_push.ts",
+    "script": "tsx --env-file=.dev.vars"
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
@@ -16,8 +28,10 @@
     "@remix-run/cloudflare-pages": "^2.4.0",
     "@remix-run/css-bundle": "^2.4.0",
     "@remix-run/react": "^2.4.0",
+    "drizzle-orm": "^0.29.1",
     "framer-motion": "^10.16.16",
     "isbot": "^3.6.8",
+    "nanoid": "^5.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.6.0",
@@ -31,6 +45,8 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "better-sqlite3": "^9.2.2",
+    "drizzle-kit": "^0.20.6",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.28.1",
@@ -40,8 +56,10 @@
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.3.6",
+    "tsx": "^4.6.2",
     "typescript": "^5.1.0",
-    "wrangler": "3.20.0"
+    "wrangler": "3.20.0",
+    "zx": "^7.2.3"
   },
   "engines": {
     "node": ">=18.0.0"

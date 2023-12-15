@@ -1,0 +1,14 @@
+# https://developers.cloudflare.com/workers/configuration/compatibility-dates/
+compatibility_date = "2024-12-15"
+
+[[ d1_databases ]]
+binding = "db"
+database_name = "ratce-db"
+database_id = "c88ece98-851a-4186-b320-1113647892c3"
+# https://developers.cloudflare.com/d1/learning/local-development/#develop-locally-with-pages
+# Says binding match preview_database_id and does not look like <UUID>
+# https://developers.cloudflare.com/d1/platform/migrations/#wrangler-customizations
+# Says binding should be <BINDING_NAME> and preview_database_id should be <UUID>
+preview_database_id = "db"
+migrations_table = "d1_migrations"
+migrations_dir = "drizzle"
