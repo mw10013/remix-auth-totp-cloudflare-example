@@ -9,8 +9,8 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix Auth Totp Cloudflare Example</h1>
+    <div className="p-8">
+      <h1 className="text-bold text-2xl">Welcome to Remix Auth Totp Cloudflare Example</h1>
     </div>
   );
 }
