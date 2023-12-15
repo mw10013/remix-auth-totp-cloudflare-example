@@ -5,10 +5,12 @@ import { TOTPStrategy } from "remix-auth-totp-dev";
 
 export const cloudflareEnvSchema = z.object({
   ENVIRONMENT: z.string().min(1),
+  HOST_URL: z.string().min(1),
   SESSION_SECRET: z.string().min(1),
+  TOTP_SECRET: z.string().min(1),
+  RESEND_API_KEY: z.string().min(1),
   //   KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
   //   DB: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
-  // SMN_R2: z.record(z.unknown()).transform((obj) => obj as unknown as R2Bucket),
 });
 
 export type CloudflareEnv = z.infer<typeof cloudflareEnvSchema>;
@@ -45,7 +47,7 @@ export function hookAuth(env: CloudflareEnv) {
   authenticator.use(
     new TOTPStrategy(
       {
-        secret: "SECRET",
+        secret: env.TOTP_SECRET,
         magicLinkGeneration: { callbackPath: "/magic-link" },
 
         storeTOTP: async (data) => {

@@ -2,4 +2,7 @@
 NODE_VERSION=20.8.1
 # development | preview | production
 ENVIRONMENT=development
+HOST_URL="http://localhost:8788"
 SESSION_SECRET=SESSION_SECRET
+TOTP_SECRET=TOTP_SECRET
+RESEND_API_KEY=
