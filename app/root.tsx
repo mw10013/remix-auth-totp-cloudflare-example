@@ -21,12 +21,17 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased light">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased dark">
         <NextUIProvider>
-          <Outlet />
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
+          {/* https://github.com/nextui-org/next-app-template/blob/main/app/layout.tsx */}
+          <div className="relative flex h-screen flex-col">
+            <main className="container mx-auto max-w-7xl grow px-6 pt-16">
+              <Outlet />
+            </main>
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </div>
         </NextUIProvider>
       </body>
     </html>
