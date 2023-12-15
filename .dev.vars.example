@@ -2,4 +2,4 @@
 NODE_VERSION=20.8.1
 # development | preview | production
 ENVIRONMENT=development
-COOKIE_SECRET=c00k1es3cr3t
+SESSION_SECRET=SESSION_SECRET
