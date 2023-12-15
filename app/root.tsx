@@ -1,5 +1,4 @@
 import type { LinksFunction } from "@remix-run/cloudflare";
-import { cssBundleHref } from "@remix-run/css-bundle";
 import {
   Links,
   LiveReload,
@@ -9,6 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
+import { NextUIProvider } from "@nextui-org/react";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -21,11 +21,13 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased light">
+        <NextUIProvider>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </NextUIProvider>
       </body>
     </html>
   );
