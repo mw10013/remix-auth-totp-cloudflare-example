@@ -1,5 +1,6 @@
 import type { LinksFunction } from "@remix-run/cloudflare";
 import {
+  Link as RemixLink,
   Links,
   LiveReload,
   Meta,
@@ -8,9 +9,45 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
-import { NextUIProvider } from "@nextui-org/react";
+import {
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NextUIProvider,
+} from "@nextui-org/react";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+
+function Navigation() {
+  return (
+    <Navbar>
+      <NavbarBrand>
+        <Link
+          as={RemixLink}
+          to="/"
+          className="font-bold text-inherit"
+          color="foreground"
+        >
+          Remix Auth TOTP
+        </Link>
+      </NavbarBrand>
+      <NavbarContent justify="end">
+        <NavbarItem>
+          <Link
+            as={RemixLink}
+            to="/signin-up"
+            color="foreground"
+            underline="hover"
+          >
+            Sign In/Up
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
+  );
+}
 
 export default function App() {
   return (
@@ -25,6 +62,7 @@ export default function App() {
         <NextUIProvider>
           {/* https://github.com/nextui-org/next-app-template/blob/main/app/layout.tsx */}
           <div className="relative flex h-screen flex-col">
+            <Navigation />
             <main className="container mx-auto max-w-7xl grow px-6 pt-16">
               <Outlet />
             </main>
