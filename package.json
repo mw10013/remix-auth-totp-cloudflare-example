@@ -7,7 +7,7 @@
     "build": "remix build",
     "dev": "remix dev --manual -c \"npm run start\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "wrangler pages dev --compatibility-date=2023-06-21 ./public",
+    "start": "wrangler pages dev --compatibility-date=2023-12-14 ./public",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -17,7 +17,9 @@
     "@remix-run/react": "^2.4.0",
     "isbot": "^3.6.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "remix-auth": "^3.6.0",
+    "remix-auth-totp-dev": "^1.3.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231121.0",

@@ -26,6 +26,12 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  remix-auth:
+    specifier: ^3.6.0
+    version: 3.6.0(@remix-run/react@2.4.0)(@remix-run/server-runtime@2.4.0)
+  remix-auth-totp-dev:
+    specifier: ^1.3.2
+    version: 1.3.2(remix-auth@3.6.0)
 
 devDependencies:
   '@cloudflare/workers-types':
@@ -476,6 +482,13 @@ packages:
   /@emotion/hash@0.9.1:
     resolution: {integrity: sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==}
     dev: true
+
+  /@epic-web/totp@1.1.1:
+    resolution: {integrity: sha512-7FIStgheUm6EuOp5DDTrID5K5G3TzCNRaNvUYi7MBjdHW5gappPrg41IId95Q1fWN9S85R1P7Uoi2CSG7X7n1Q==}
+    engines: {node: '>=18'}
+    dependencies:
+      thirty-two: 1.0.2
+    dev: false
 
   /@esbuild-plugins/node-globals-polyfill@0.2.3(esbuild@0.17.19):
     resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
@@ -3877,6 +3890,10 @@ packages:
     resolution: {integrity: sha512-JVAfqNPTvNq3sB/VHQJAFxN/sPgKnsKrCwyRt15zwNCdrMMJDdcEOdubuy+DuJYYdm0ox1J4uzEuYKkN+9yhVg==}
     dev: true
 
+  /jose@5.1.3:
+    resolution: {integrity: sha512-GPExOkcMsCLBTi1YetY2LmkoY559fss0+0KVa6kOfb2YFe84nAM7Nm/XzuZozah4iHgmBGrCOHL5/cy670SBRw==}
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -5399,6 +5416,28 @@ packages:
       unified: 10.1.2
     dev: true
 
+  /remix-auth-totp-dev@1.3.2(remix-auth@3.6.0):
+    resolution: {integrity: sha512-LyrNalRrAYP0nhj6TH/dZVYEV0OWSW8WfIEWD0Riz9n0vKhp3bl+3W0ytChxNbNHs5A7WIQMYyB2Bzp7+LiIJQ==}
+    peerDependencies:
+      remix-auth: ^3.6.0
+    dependencies:
+      '@epic-web/totp': 1.1.1
+      jose: 5.1.3
+      remix-auth: 3.6.0(@remix-run/react@2.4.0)(@remix-run/server-runtime@2.4.0)
+      thirty-two: 1.0.2
+    dev: false
+
+  /remix-auth@3.6.0(@remix-run/react@2.4.0)(@remix-run/server-runtime@2.4.0):
+    resolution: {integrity: sha512-mxlzLYi+/GKQSaXIqIw15dxAT1wm+93REAeDIft2unrKDYnjaGhhpapyPhdbALln86wt9lNAk21znfRss3fG7Q==}
+    peerDependencies:
+      '@remix-run/react': ^1.0.0 || ^2.0.0
+      '@remix-run/server-runtime': ^1.0.0 || ^2.0.0
+    dependencies:
+      '@remix-run/react': 2.4.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+      '@remix-run/server-runtime': 2.4.0(typescript@5.3.3)
+      uuid: 8.3.2
+    dev: false
+
   /require-like@0.1.2:
     resolution: {integrity: sha512-oyrU88skkMtDdauHDuKVrgR+zuItqr6/c//FXzvmxRGMexSDc6hNvJInGW3LL46n+8b50RykrvwSUIIQH2LQ5A==}
     dev: true
@@ -5902,6 +5941,11 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
+  /thirty-two@1.0.2:
+    resolution: {integrity: sha512-OEI0IWCe+Dw46019YLl6V10Us5bi574EvlJEOcAkB29IzQ/mYD1A6RyNHLjZPiHCmuodxvgF6U+vZO1L15lxVA==}
+    engines: {node: '>=0.2.6'}
+    dev: false
+
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
     dependencies:
@@ -6181,6 +6225,11 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: true
+
+  /uuid@8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
 
   /uvu@0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}

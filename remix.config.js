@@ -12,4 +12,10 @@ export default {
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
+  serverNodeBuiltinsPolyfill: {
+    modules: { buffer: true, crypto: true },
+    globals: {
+      Buffer: true,
+    },
+  },
 };
