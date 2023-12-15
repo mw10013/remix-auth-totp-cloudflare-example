@@ -1,8 +1,9 @@
 CREATE TABLE `totps` (
-	`id` integer DEFAULT true NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	`hash` text NOT NULL,
-	`attempts` integer DEFAULT 0 NOT NULL
+	`attempts` integer DEFAULT 0 NOT NULL,
+	`active` integer DEFAULT true NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `users` (

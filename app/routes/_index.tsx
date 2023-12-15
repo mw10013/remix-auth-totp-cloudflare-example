@@ -1,14 +1,25 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import type { MetaFunction } from "@remix-run/cloudflare";
+import { LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { useLoaderData } from "@remix-run/react";
+import { drizzle } from "drizzle-orm/d1";
+import { totps as totpTable, users as userTable } from "~/lib/db/schema";
+import { hookAuth, hookEnv } from "~/lib/hooks.server";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Remix Auth Totp Cloudflare Example" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+export async function loader({ context }: LoaderFunctionArgs) {
+  const { env } = hookEnv(context.env);
+  const { authenticator } = hookAuth(env);
+  const db = drizzle(env.DB);
+  const totps = await db.select().from(totpTable);
+  const users = await db.select().from(userTable);
+  return {
+    totps,
+    users,
+    authenticator,
+  };
+}
 
 export default function Index() {
+  const data = useLoaderData<typeof loader>();
   return (
     <Card className="m-8">
       <CardHeader>
@@ -17,7 +28,7 @@ export default function Index() {
         </h1>
       </CardHeader>
       <CardBody>
-        <p>Make beautiful websites regardless of your design experience.</p>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
       </CardBody>
     </Card>
   );

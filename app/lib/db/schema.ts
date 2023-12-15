@@ -26,7 +26,7 @@ export const totps = sqliteTable("totps", {
     .default(sql`CURRENT_TIMESTAMP`),
   hash: text("hash").notNull().unique(),
   attempts: integer("attempts").notNull().default(0),
-  active: integer("id", { mode: "boolean" }).notNull().default(true),
+  active: integer("active", { mode: "boolean" }).notNull().default(true),
 });
 
 export type Totp = typeof totps.$inferSelect;
