@@ -5,8 +5,6 @@ import {
   json,
 } from "@remix-run/cloudflare";
 import { Form, useLoaderData } from "@remix-run/react";
-import { drizzle } from "drizzle-orm/d1";
-import { totps } from "~/lib/db/schema";
 import { hookAuth, hookEnv } from "~/lib/hooks.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
@@ -20,13 +18,9 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const authEmail = cookie.get("auth:email");
   const authError = cookie.get(authenticator.sessionErrorKey);
 
-  const db = drizzle(env.DB);
-  const totpsResult = await db.select().from(totps).all();
-  console.log("totpsResult", totpsResult);
-
   // Commit session to clear any `flash` error message.
   return json(
-    { totpsResult, authEmail, authError, authenticator },
+    { authEmail, authError },
     {
       headers: {
         "set-cookie": await commitSession(cookie),
