@@ -2,6 +2,7 @@ import { createCookieSessionStorage } from "@remix-run/cloudflare";
 import { z } from "zod";
 import { Authenticator } from "remix-auth";
 import { TOTPStrategy } from "remix-auth-totp-dev";
+import { sendAuthEmail } from "~/lib/email.server";
 
 export const cloudflareEnvSchema = z.object({
   ENVIRONMENT: z.string().min(1),
@@ -9,8 +10,8 @@ export const cloudflareEnvSchema = z.object({
   SESSION_SECRET: z.string().min(1),
   TOTP_SECRET: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
-  kv: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
-  db: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
+  KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
+  DB: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
 });
 
 export type CloudflareEnv = z.infer<typeof cloudflareEnvSchema>;
@@ -30,15 +31,15 @@ interface User {
   //   updatedAt: Date | null;
 }
 
-export function hookAuth(env: CloudflareEnv) {
+export function hookAuth({SESSION_SECRET, ENVIRONMENT, RESEND_API_KEY,TOTP_SECRET, DB}: CloudflareEnv) {
   const authSessionStorage = createCookieSessionStorage({
     cookie: {
       name: "_auth",
       path: "/",
       sameSite: "lax",
       httpOnly: true,
-      secrets: [env.SESSION_SECRET],
-      secure: env.ENVIRONMENT === "production",
+      secrets: [SESSION_SECRET],
+      secure: ENVIRONMENT === "production",
     },
   });
   const authenticator = new Authenticator<User>(authSessionStorage, {
@@ -47,14 +48,21 @@ export function hookAuth(env: CloudflareEnv) {
   authenticator.use(
     new TOTPStrategy(
       {
-        secret: env.TOTP_SECRET,
+        secret: TOTP_SECRET,
         magicLinkGeneration: { callbackPath: "/magic-link" },
 
         storeTOTP: async (data) => {
           console.log("storeTOTP:", data);
+        //   await prisma.totp.create({ data });
         },
         sendTOTP: async ({ email, code, magicLink }) => {
           console.log("sendTOTP:", { email, code, magicLink });
+          await sendAuthEmail({
+            email,
+            code,
+            magicLink,
+            resendApiKey: RESEND_API_KEY,
+          });
         },
         handleTOTP: async (hash, data) => {
           console.log("handleTOTP:", { hash, data });
