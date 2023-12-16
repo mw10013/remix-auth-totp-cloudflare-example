@@ -6,6 +6,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const { authenticator } = hookAuth(env);
   await authenticator.authenticate("TOTP", request, {
     successRedirect: "/account",
-    failureRedirect: "/login",
+    failureRedirect: "/signin-up",
   });
 }

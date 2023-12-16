@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Link } from "@nextui-org/react";
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { drizzle } from "drizzle-orm/d1";
@@ -28,6 +28,14 @@ export default function Index() {
         </h1>
       </CardHeader>
       <CardBody>
+      <Button
+      href="/signin-up"
+      as={Link}
+      color="primary"
+      variant="solid"
+    >
+      Authorize
+    </Button>
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </CardBody>
     </Card>

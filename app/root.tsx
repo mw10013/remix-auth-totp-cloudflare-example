@@ -30,7 +30,7 @@ export const meta: MetaFunction = () => {
     {
       name: "description",
       content:
-        "This app is an example of using remix-auth-totp with cloudflare pages, d1, and kv.",
+        "This app is an example of using remix-auth-totp with cloudflare pages and d1.",
     },
   ];
 };
@@ -51,16 +51,7 @@ function Navigation() {
         </Link>
       </NavbarBrand>
       <NavbarContent justify="end">
-        <NavbarItem>
-          <Link
-            as={RemixLink}
-            to="/signin-up"
-            color="foreground"
-            underline="hover"
-          >
-            Sign In/Up
-          </Link>
-        </NavbarItem>
+        <NavbarItem></NavbarItem>
       </NavbarContent>
     </Navbar>
   );

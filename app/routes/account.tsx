@@ -1,5 +1,6 @@
+import { Button } from "@nextui-org/react";
 import { LoaderFunctionArgs, redirect } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { users } from "~/lib/db/schema";
@@ -22,6 +23,9 @@ export default function Route() {
   return (
     <div>
       Account
+      <Form method="POST" action="/logout" autoComplete="off">
+        <Button type="submit">Log out</Button>
+      </Form>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
