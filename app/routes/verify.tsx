@@ -1,27 +1,40 @@
 import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
-import { ActionFunctionArgs, LoaderFunctionArgs, json, redirect } from "@remix-run/cloudflare";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  json,
+  redirect,
+} from "@remix-run/cloudflare";
 import { Form, useLoaderData } from "@remix-run/react";
+import { drizzle } from "drizzle-orm/d1";
+import { totps as totpTable } from "~/lib/db/schema";
 import { hookAuth, hookEnv } from "~/lib/hooks.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const { env } = hookEnv(context.env);
   const { authenticator, getSession, commitSession } = hookAuth(env);
   await authenticator.isAuthenticated(request, {
-    successRedirect: '/account',
-  })
+    successRedirect: "/account",
+  });
 
-  const cookie = await getSession(request.headers.get('cookie'))
-  const authEmail = cookie.get('auth:email')
-  const authError = cookie.get(authenticator.sessionErrorKey)
+  const cookie = await getSession(request.headers.get("cookie"));
+  const authEmail = cookie.get("auth:email");
+  const authError = cookie.get(authenticator.sessionErrorKey);
 
-  if (!authEmail) return redirect('/signin-up')
+  if (!authEmail) return redirect("/signin-up");
+
+  const db = drizzle(env.DB);
+  const totps = await db.select().from(totpTable);
 
   // Commit session to clear any `flash` error message.
-  return json({ authEmail, authError }, {
-    headers: {
-      'set-cookie': await commitSession(cookie),
+  return json(
+    { cookie, authEmail, authError, totps },
+    {
+      headers: {
+        "set-cookie": await commitSession(cookie),
+      },
     },
-  })
+  );
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {

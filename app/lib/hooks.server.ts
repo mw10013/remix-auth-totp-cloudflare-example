@@ -88,6 +88,7 @@ export function hookAuth({
         },
       },
       async ({ email }) => {
+        console.log("totps verify callback: email:", email);
         let [user] = await db
           .select()
           .from(users)
