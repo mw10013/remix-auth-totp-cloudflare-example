@@ -17,6 +17,7 @@ import {
   NavbarItem,
   NextUIProvider,
 } from "@nextui-org/react";
+import { Navigation } from "./components/navigation";
 
 /**
  * We take simplistic approach to meta and only define it in root.
@@ -26,7 +27,7 @@ import {
 export const meta: MetaFunction = () => {
   // https://remix.run/docs/en/main/route/meta-v2#avoid-meta-in-parent-routes
   return [
-    { title: "Remix Auth Totp Cloudflare Example" },
+    { title: "TOTP Starter Cloudflare" },
     {
       name: "description",
       content:
@@ -36,26 +37,6 @@ export const meta: MetaFunction = () => {
 };
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
-
-function Navigation() {
-  return (
-    <Navbar>
-      <NavbarBrand>
-        <Link
-          as={RemixLink}
-          to="/"
-          className="font-bold text-inherit"
-          color="foreground"
-        >
-          Remix Auth TOTP
-        </Link>
-      </NavbarBrand>
-      <NavbarContent justify="end">
-        <NavbarItem></NavbarItem>
-      </NavbarContent>
-    </Navbar>
-  );
-}
 
 export default function App() {
   return (
