@@ -29,7 +29,7 @@ export default function Index() {
       </CardHeader>
       <CardBody>
       <Button
-      href="/signin-up"
+      href="/login"
       as={Link}
       color="primary"
       variant="solid"

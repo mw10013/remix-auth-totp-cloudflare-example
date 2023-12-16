@@ -21,7 +21,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const authEmail = cookie.get("auth:email");
   const authError = cookie.get(authenticator.sessionErrorKey);
 
-  if (!authEmail) return redirect("/signin-up");
+  if (!authEmail) return redirect("/login");
 
   const db = drizzle(env.DB);
   const totps = await db.select().from(totpTable);
