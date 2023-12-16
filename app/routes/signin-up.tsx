@@ -70,8 +70,8 @@ export default function Route() {
               type="email"
               name="email"
               label="Email"
-              required
               variant="bordered"
+              isRequired
               isInvalid={!!authError}
               errorMessage={authError?.message}
             />
