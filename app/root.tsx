@@ -1,6 +1,5 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import {
-  Link as RemixLink,
   Links,
   LiveReload,
   Meta,
@@ -9,15 +8,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
-import {
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NextUIProvider,
-} from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
 import { Navigation } from "./components/navigation";
+import { GenericErrorBoundary } from "~/components/error-boundary";
 
 /**
  * We take simplistic approach to meta and only define it in root.
@@ -27,7 +20,7 @@ import { Navigation } from "./components/navigation";
 export const meta: MetaFunction = () => {
   // https://remix.run/docs/en/main/route/meta-v2#avoid-meta-in-parent-routes
   return [
-    { title: "TOTP Starter Cloudflare" },
+    { title: "Remix Auth TOTP Cloudflare Example" },
     {
       name: "description",
       content:
@@ -38,12 +31,18 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
-export default function App() {
+function Document({
+  children,
+  lang = "en",
+}: {
+  children: React.ReactNode;
+  lang?: string;
+}) {
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -53,14 +52,35 @@ export default function App() {
           <div className="relative flex h-screen flex-col">
             <Navigation />
             <main className="container mx-auto max-w-7xl grow px-6 pt-16">
-              <Outlet />
+              {children}
             </main>
             <ScrollRestoration />
             <Scripts />
+            {/* {process.env.NODE_ENV === "development" && <LiveReload />} */}
             <LiveReload />
           </div>
         </NextUIProvider>
       </body>
     </html>
+  );
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  );
+}
+
+export function ErrorBoundary() {
+  /**
+   * NOTE: `useLoaderData` is not available in the Error Boundary.
+   * The loader likely failed to run so we have to do the best we can.
+   */
+  return (
+    <Document>
+      <GenericErrorBoundary />
+    </Document>
   );
 }

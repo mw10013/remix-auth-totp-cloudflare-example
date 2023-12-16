@@ -34,6 +34,11 @@ export async function action({ request, context }: ActionFunctionArgs) {
   const currentPath = url.pathname;
   const { env } = hookEnv(context.env);
   const { authenticator } = hookAuth(env);
+  console.log({
+    host: request.headers.get("host"),
+    xhost: request.headers.get("X-Forwarded-Host"),
+    url: request.url,
+  });
 
   await authenticator.authenticate("TOTP", request, {
     // The `successRedirect` route will be used to verify the OTP code.
@@ -47,25 +52,20 @@ export async function action({ request, context }: ActionFunctionArgs) {
 }
 
 export default function Route() {
-  const data = useLoaderData<typeof loader>();
-  const { authEmail, authError } = data;
-  const error = null;
+  const { authEmail, authError } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-sm p-8">
       <Card>
         <CardHeader className="flex gap-3">
           <div className="flex flex-col">
-            <p className="text-md">Instant Sign In/Up</p>
+            <p className="text-md">Welcome back</p>
             <p className="text-small text-default-500">
-              Sign in or create an account with just your email.
+              Login in or sign in to your account
             </p>
-            {error && (
-              <small className="mt-2 text-small text-danger-500">{error}</small>
-            )}
           </div>
         </CardHeader>
         <CardBody>
-          <Form method="post">
+          <Form method="post" className="space-y-2">
             <Input
               type="email"
               name="email"
@@ -75,14 +75,10 @@ export default function Route() {
               isInvalid={!!authError}
               errorMessage={authError?.message}
             />
-            <div className="space-y-2 py-2">
-              <div className="flex flex-col items-center"></div>
-              <div className="flex justify-end">
-                <Button type="submit">Submit</Button>
-              </div>
-            </div>
+            <Button type="submit" className="w-full" color="primary">
+              Continue with Email
+            </Button>
           </Form>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
         </CardBody>
       </Card>
     </div>

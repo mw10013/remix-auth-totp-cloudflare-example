@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -50,18 +50,28 @@ export async function action({ request, context }: ActionFunctionArgs) {
 export default function Route() {
   const { user } = useLoaderData<typeof loader>();
   return (
-    <div>
-      Account
-      <Form method="POST" autoComplete="off">
-        <Button type="submit" color="primary">
-          Remove account
-        </Button>
-      </Form>
-      <Form method="POST" action="/logout" autoComplete="off">
-        <Button type="submit" color="secondary">
-          Log out
-        </Button>
-      </Form>
+    <div className="mx-auto max-w-sm p-8">
+      <Card>
+        <CardHeader className="flex gap-3">
+          <div className="flex flex-col">
+            <p className="text-md">My account</p>
+            <p className="text-small text-default-500">
+            </p>
+          </div>
+        </CardHeader>
+        <CardBody className="space-y-2">
+          <Form method="POST" autoComplete="off">
+            <Button type="submit" className="w-full" color="primary">
+              Remove account
+            </Button>
+          </Form>
+          <Form method="POST" action="/logout" autoComplete="off">
+            <Button type="submit" className="w-full" color="secondary">
+              Log out
+            </Button>
+          </Form>
+        </CardBody>
+      </Card>
     </div>
   );
 }
