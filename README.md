@@ -45,6 +45,30 @@ And you're ready to go! 🎉
 [wrangler:inf] GET /login 302 Found (4ms)
 ```
 
+## Deployment
+
+- Go to your [Cloudflare](https://www.cloudflare.com/) account.
+- Use [Deplay a Remix Site](https://developers.cloudflare.com/pages/framework-guides/deploy-a-remix-site/#deploying-with-cloudflare-pages) as reference.
+- Workers & Pages | Overview | Create application button | Pages tab | Connect to Git button
+  - Follow the Cloudflare workflow to link the repo.
+  - Set up builds and deployments form
+    - Framework preset: Remix
+    - Environment variables (advanced)
+- Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Environment variables (for Production and Preview)
+  - ENVIRONMENT = production | preview (ie. specify production for Production and preview for Preview)
+  - SESSION_SECRET
+  - TOTP_SECRET
+  - RESEND_API_KEY
+- Workers & Pages | D1 | Create database | Dashboard
+  - Database name: ratce-db-prod | ratce-db-preview (ie. create two databases)
+  - Note database id for wrangler.toml.
+- Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | D1 database bindings
+  - Production: DB = ratce-db-prod
+  - Preview: DB = ratce-db-preview
+- wrangler.toml
+  - databse_id = "<Cloudflare d1 id for ratce-db-prod>
+  - preview_databse_id = "<Cloudflare d1 id for ratce-db-preview>
+
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
