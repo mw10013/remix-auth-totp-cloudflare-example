@@ -31,7 +31,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 
 export async function action({ request, context }: ActionFunctionArgs) {
   const { env } = hookEnv(context.env);
-  const { authenticator } = hookAuth(env, request);
+  const { authenticator } = hookAuth(env);
   let magicUrl = new URL(request.url);
   magicUrl.pathname = "/magic-link";
   magicUrl.searchParams.set("code", "QWERT");

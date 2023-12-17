@@ -17,8 +17,8 @@
     "drizzle:up": "drizzle-kit up:sqlite",
     "drizzle:check": "drizzle-kit check:sqlite",
     "drizzle:drop": "drizzle-kit drop",
-    "d1:migrate:list": "wrangler d1 migrations list ratce-db --local",
-    "d1:migrate:apply": "wrangler d1 migrations apply ratce-db --local",
+    "d1:migrate:list": "wrangler d1 migrations list ratce-db-development --local",
+    "d1:migrate:apply": "wrangler d1 migrations apply ratce-db-development --local",
     "d1:reset": "tsx scripts/d1-reset.ts",
     "d1:push": "tsx scripts/d1-push.ts",
     "script": "tsx --env-file=.dev.vars"
@@ -36,7 +36,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-auth": "^3.6.0",
-    "remix-auth-totp": "^1.4.0",
+    "remix-auth-totp": "^1.4.1",
     "tiny-invariant": "^1.3.1",
     "zod": "^3.22.4"
   },

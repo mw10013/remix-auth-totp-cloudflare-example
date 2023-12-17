@@ -27,16 +27,13 @@ export function hookEnv(env: unknown) {
   return { env };
 }
 
-export function hookAuth(
-  {
-    SESSION_SECRET,
-    ENVIRONMENT,
-    RESEND_API_KEY,
-    TOTP_SECRET,
-    DB,
-  }: CloudflareEnv,
-  request?: Request,
-) {
+export function hookAuth({
+  SESSION_SECRET,
+  ENVIRONMENT,
+  RESEND_API_KEY,
+  TOTP_SECRET,
+  DB,
+}: CloudflareEnv) {
   const sessionStorage = createCookieSessionStorage({
     cookie: {
       name: "_auth",
@@ -48,7 +45,6 @@ export function hookAuth(
     },
   });
   const db = drizzle(DB);
-  const hostUrl = request ? new URL(request.url).origin : undefined;
   const authenticator = new Authenticator<User>(sessionStorage, {
     throwOnError: true,
   });
@@ -56,7 +52,7 @@ export function hookAuth(
     new TOTPStrategy(
       {
         secret: TOTP_SECRET,
-        magicLinkGeneration: { callbackPath: "/magic-link", hostUrl },
+        magicLinkGeneration: { callbackPath: "/magic-link" },
 
         storeTOTP: async (data) => {
           console.log("storeTOTP:", data);

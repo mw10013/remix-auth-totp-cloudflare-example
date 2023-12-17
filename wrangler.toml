@@ -3,13 +3,14 @@ compatibility_date = "2024-12-15"
 
 [[ d1_databases ]]
 binding = "DB"
-database_name = "ratce-db"
-database_id = "36c9d036-ac5c-4a81-b3c2-1d7ce9e5ee5a"
+database_name = "ratce-db-development"
+database_id = "intentional-dummy-id"
+# database_id = "36c9d036-ac5c-4a81-b3c2-1d7ce9e5ee5a"
 # https://developers.cloudflare.com/d1/learning/local-development/#develop-locally-with-pages
 # Says binding match preview_database_id and does not look like <UUID>
 # https://developers.cloudflare.com/d1/platform/migrations/#wrangler-customizations
 # Says binding should be <BINDING_NAME> and preview_database_id should be <UUID>
-# preview_database_id = "DB"
-preview_database_id = "05ff0b5a-7459-4be2-a304-024a60ac34db"
+preview_database_id = "DB"
+# preview_database_id = "05ff0b5a-7459-4be2-a304-024a60ac34db"
 migrations_table = "d1_migrations"
 migrations_dir = "drizzle"
