@@ -59,6 +59,8 @@ And you're ready to go! 🎉
   - SESSION_SECRET
   - TOTP_SECRET
   - RESEND_API_KEY
+- Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
+    - Specify `2023-12-01` for Production and Preview
 - Workers & Pages | D1 | Create database | Dashboard
   - Database name: ratce-db-prod | ratce-db-preview (ie. create two databases)
   - Note database id for wrangler.toml.

@@ -7,7 +7,7 @@
     "build": "remix build",
     "dev": "remix dev --manual -c \"npm run start\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "wrangler pages dev --compatibility-date=2023-12-15 ./public --kv=KV --d1=DB",
+    "start": "wrangler pages dev --compatibility-date=2023-12-01 ./public --kv=KV --d1=DB",
     "typecheck": "tsc",
     "tail:prod": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example --environment production",
     "tail:preview": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example --environment preview",
