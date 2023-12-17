@@ -30,11 +30,13 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
-  const url = new URL(request.url);
-  const currentPath = url.pathname;
   const { env } = hookEnv(context.env);
-  const { authenticator } = hookAuth(env);
+  const { authenticator } = hookAuth(env, request);
+  let magicUrl = new URL(request.url);
+  magicUrl.pathname = "/magic-link";
+  magicUrl.searchParams.set("code", "QWERT");
   console.log({
+    magicUrl,
     host: request.headers.get("host"),
     xhost: request.headers.get("X-Forwarded-Host"),
     url: request.url,
@@ -47,7 +49,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
 
     // The `failureRedirect` route will be used to render any possible error.
     // If not provided, ErrorBoundary will be rendered instead.
-    failureRedirect: currentPath,
+    failureRedirect: new URL(request.url).pathname,
   });
 }
 
