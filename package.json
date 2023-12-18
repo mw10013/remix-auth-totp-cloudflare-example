@@ -19,6 +19,7 @@
     "drizzle:drop": "drizzle-kit drop",
     "d1:migrate:list": "wrangler d1 migrations list ratce-db --local",
     "d1:migrate:apply": "wrangler d1 migrations apply ratce-db --local",
+    "d1:migrate:list:prod": "wrangler d1 migrations list ratce-db",
     "d1:migrate:apply:prod": "wrangler d1 migrations apply ratce-db",
     "d1:reset": "tsx scripts/d1-reset.ts",
     "d1:push": "tsx scripts/d1-push.ts",

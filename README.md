@@ -53,8 +53,8 @@ And you're ready to go! 🎉
   - Follow the Cloudflare workflow to link the repo.
   - Set up builds and deployments form
     - Framework preset: Remix
-    - Environment variables (advanced)
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Environment variables (for Production and Preview)
+  - See .dev.vars.example for reference.
   - ENVIRONMENT = production | preview (ie. specify production for Production and preview for Preview)
   - SESSION_SECRET
   - TOTP_SECRET
@@ -62,22 +62,30 @@ And you're ready to go! 🎉
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
   - Specify `2023-12-01` for Production and Preview
 - Workers & Pages | D1 | Create database | Dashboard
-  - Database name: ratce-db-prod | ratce-db-preview (ie. create two databases)
+  - Database name: ratce-db
   - Note database id for wrangler.toml.
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | D1 database bindings
-  - Production: DB = ratce-db-prod
-  - Preview: DB = ratce-db-preview
+  - Production: DB = ratce-db
+  - Preview: DB = ratce-db
 - wrangler.toml
-  - databse_id = "<Cloudflare d1 id for ratce-db-prod>
-  - preview_databse_id = "<Cloudflare d1 id for ratce-db-preview>
+  - databse_id = "<Cloudflare d1 id for ratce-db>"
+    - Can use `pnpm wrangler d1 info ratce-db` to get the database id.
+- `pnpm run d1:migrate:apply:prod`
 
 ## Etc
 
 ```sh
 pnpm wrangler d1 info ratce-db
+
+# dev
 pnpm wrangler d1 execute ratce-db --local --command "select * from totps;"
 pnpm wrangler d1 execute ratce-db --local --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-db --local --command "select * from users;"
+
+# prod
 pnpm wrangler d1 execute ratce-db --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-db --command "select * from users;"
+
 ```
 
 # Welcome to Remix!
