@@ -13,7 +13,7 @@ export const cloudflareEnvSchema = z.object({
   SESSION_SECRET: z.string().min(1),
   TOTP_SECRET: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
-  KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
+  // KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
   DB: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
 });
 
