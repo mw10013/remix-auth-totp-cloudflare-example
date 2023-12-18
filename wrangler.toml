@@ -3,7 +3,7 @@ compatibility_date = "2023-12-01"
 
 [[ d1_databases ]]
 binding = "DB"
-database_name = "ratce-db-development"
+database_name = "ratce-db-dev"
 database_id = "intentional-dummy-id"
 # database_id = "36c9d036-ac5c-4a81-b3c2-1d7ce9e5ee5a"
 # https://developers.cloudflare.com/d1/learning/local-development/#develop-locally-with-pages
