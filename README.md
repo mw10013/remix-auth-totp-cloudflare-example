@@ -60,7 +60,7 @@ And you're ready to go! 🎉
   - TOTP_SECRET
   - RESEND_API_KEY
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
-    - Specify `2023-12-01` for Production and Preview
+  - Specify `2023-12-01` for Production and Preview
 - Workers & Pages | D1 | Create database | Dashboard
   - Database name: ratce-db-prod | ratce-db-preview (ie. create two databases)
   - Note database id for wrangler.toml.
@@ -70,6 +70,15 @@ And you're ready to go! 🎉
 - wrangler.toml
   - databse_id = "<Cloudflare d1 id for ratce-db-prod>
   - preview_databse_id = "<Cloudflare d1 id for ratce-db-preview>
+
+## Etc
+
+```sh
+pnpm wrangler d1 info ratce-db
+pnpm wrangler d1 execute ratce-db --local --command "select * from totps;"
+pnpm wrangler d1 execute ratce-db --local --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-db --command "select * from d1_migrations;"
+```
 
 # Welcome to Remix!
 
