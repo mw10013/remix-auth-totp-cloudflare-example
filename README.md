@@ -61,6 +61,11 @@ And you're ready to go! 🎉
   - RESEND_API_KEY
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
   - Specify `2023-12-01` for Production and Preview
+- Workers & Pages | KV | Create a namespace
+  - Namespace name: ratce-kv-prod | ratce-kv-preview (ie. create 2 kv's)
+- Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | KV namespace bindings
+  - Production: KV = ratce-kv-prod
+  - Preview: KV = ratce-kv-preview
 - Workers & Pages | D1 | Create database | Dashboard
   - Database name: ratce-db-prod | ratce-db-preview (ie. create 2 databases)
   - Note database id's for wrangler.toml.
