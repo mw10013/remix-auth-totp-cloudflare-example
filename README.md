@@ -76,11 +76,15 @@ And you're ready to go! 🎉
 
 ```sh
 pnpm wrangler d1 info ratce-db
+pnpm wrangler d1 info ratce-db-preview
 
 # dev
 pnpm wrangler d1 execute ratce-db --local --command "select * from totps;"
 pnpm wrangler d1 execute ratce-db --local --command "select * from d1_migrations;"
 pnpm wrangler d1 execute ratce-db --local --command "select * from users;"
+
+# preview
+ pnpm wrangler d1 migrations list ratce-db-preview --env preview
 
 # prod
 pnpm wrangler d1 execute ratce-db --command "select * from d1_migrations;"
