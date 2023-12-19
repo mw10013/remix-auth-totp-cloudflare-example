@@ -62,14 +62,16 @@ And you're ready to go! 🎉
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
   - Specify `2023-12-01` for Production and Preview
 - Workers & Pages | D1 | Create database | Dashboard
-  - Database name: ratce-db
-  - Note database id for wrangler.toml.
+  - Database name: ratce-db-prod | ratce-db-preview (ie. create 2 databases)
+  - Note database id's for wrangler.toml.
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | D1 database bindings
-  - Production: DB = ratce-db
-  - Preview: DB = ratce-db
+  - Production: DB = ratce-db-prod
+  - Preview: DB = ratce-db-preview
 - wrangler.toml
-  - databse_id = "<Cloudflare d1 id for ratce-db>"
-    - Can use `pnpm wrangler d1 info ratce-db` to get the database id.
+  - [[env.prod.d1_databases]]
+    - databse_id = "<Cloudflare d1 id for ratce-db-prod>"
+  - [[env.preview.d1_databases]]
+    - databse_id = "<Cloudflare d1 id for ratce-db-preview>"
 - `pnpm run d1:migrate:apply:prod`
 
 ## Etc
