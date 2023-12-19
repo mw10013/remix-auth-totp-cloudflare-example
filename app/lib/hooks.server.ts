@@ -13,7 +13,7 @@ export const cloudflareEnvSchema = z.object({
   SESSION_SECRET: z.string().min(1),
   TOTP_SECRET: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
-  // KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
+  KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
   DB: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
 });
 
@@ -32,6 +32,7 @@ export function hookAuth({
   ENVIRONMENT,
   RESEND_API_KEY,
   TOTP_SECRET,
+  KV,
   DB,
 }: CloudflareEnv) {
   const sessionStorage = createCookieSessionStorage({
@@ -53,10 +54,13 @@ export function hookAuth({
       {
         secret: TOTP_SECRET,
         magicLinkGeneration: { callbackPath: "/magic-link" },
+        customErrors: {
+          // invalidTotp: "Expired TOTP code",
+        },
 
         storeTOTP: async (data) => {
           console.log("storeTOTP:", data);
-          await db.insert(totps).values(data);
+          await KV.put(`totp:${data.hash}`, JSON.stringify(data));
         },
         sendTOTP: async ({ email, code, magicLink }) => {
           console.log("sendTOTP:", { email, code, magicLink });
@@ -69,19 +73,14 @@ export function hookAuth({
         },
         handleTOTP: async (hash, data) => {
           console.log("handleTOTP:", { hash, data });
-          const [totp] = await db
-            .select()
-            .from(totps)
-            .where(eq(totps.hash, hash))
-            .limit(1);
-          invariant(totp, "TOTP not found");
+          const totpJson = await KV.get(`totp:${hash}`);
+          if (!totpJson) return null;
+          const totp = JSON.parse(totpJson);
+          console.log("totp:", totp);
           if (data) {
-            const [updatedTotp] = await db
-              .update(totps)
-              .set(data)
-              .where(eq(totps.hash, hash))
-              .returning();
-            invariant(updatedTotp, "TOTP update not found");
+            const updatedTotp = { ...totp, ...data };
+            console.log("updatedTotp:", updatedTotp);
+            await KV.put(`totp:${hash}`, JSON.stringify(updatedTotp));
             return updatedTotp;
           }
           return totp;
