@@ -79,19 +79,21 @@ And you're ready to go! 🎉
 ## Etc
 
 ```sh
-pnpm wrangler d1 info ratce-db
+pnpm wrangler d1 info ratce-db-prod
 pnpm wrangler d1 info ratce-db-preview
 
 # dev
-pnpm wrangler d1 execute ratce-db --local --command "select * from totps;"
-pnpm wrangler d1 execute ratce-db --local --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-db --local --command "select * from users;"
-
-# preview
- pnpm wrangler d1 migrations list ratce-db-preview --env preview
+pnpm wrangler d1 execute ratce-db-dev --local --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-db-dev --local --command "select * from users;"
+pnpm wrangler d1 execute ratce-db-dev --local --command "select * from totps;"
 
 # prod
-pnpm wrangler d1 execute ratce-db --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-db --command "select * from users;"
+pnpm wrangler d1 execute ratce-db-prod --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-db-prod --command "select * from users;"
+pnpm wrangler d1 migrations list ratce-db-prod --env prod
 
+# preview
+pnpm wrangler d1 execute ratce-db-preview --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-db-preview --command "select * from users;"
+pnpm wrangler d1 migrations list ratce-db-preview --env preview
 ```
