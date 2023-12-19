@@ -33,7 +33,7 @@ And you're ready to go! 🎉
 
 ## Troubleshooting Local Dev
 
-- Console spits out 302's continuously. This may occur after rebuilding local from scratch, espeically the database, and there are stale cookies in the browser. Clearing cookies for the application in the browser should fix.
+- Console spits out 302's continuously. This may occur after rebuilding local from scratch, especially the database, and there are stale cookies in the browser. Clearing cookies for the application in the browser should fix.
 
 ```sh
 [wrangler:inf] GET /verify 302 Found (11ms)
@@ -69,10 +69,12 @@ And you're ready to go! 🎉
   - Preview: DB = ratce-db-preview
 - wrangler.toml
   - [[env.prod.d1_databases]]
-    - databse_id = "<Cloudflare d1 id for ratce-db-prod>"
+    - databse_id = "<d1 id for ratce-db-prod>"
   - [[env.preview.d1_databases]]
-    - databse_id = "<Cloudflare d1 id for ratce-db-preview>"
-- `pnpm run d1:migrate:apply:prod`
+    - databse_id = "<d1 id for ratce-db-preview>"
+- Apply migrations
+  - `pnpm run d1:migrate:apply:prod`
+  - `pnpm run d1:migrate:apply:preview`
 
 ## Etc
 
