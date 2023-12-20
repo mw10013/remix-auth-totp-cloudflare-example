@@ -84,12 +84,13 @@ export function hookAuth({
           const totp = JSON.parse(totpJson);
           if (data) {
             const list = await KV.list({ prefix: `totp:${hash}` });
-            if (list.keys.length === 1) {
+            if (list.keys.length === 1 && list.keys[0].expiration) {
               const updatedTotp = { ...totp, ...data };
               console.log("updatedTotp:", updatedTotp);
               console.log("key:", list.keys[0]);
+              const now = Math.floor(Date.now() / 1000);
               await KV.put(`totp:${hash}`, JSON.stringify(updatedTotp), {
-                expiration: list.keys[0].expiration,
+                expirationTtl: Math.max(list.keys[0].expiration - now, 60), // >= 60 seconds
               });
               return updatedTotp;
             }
