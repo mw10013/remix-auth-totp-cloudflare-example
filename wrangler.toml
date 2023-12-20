@@ -10,18 +10,19 @@ preview_database_id = "DB"
 migrations_table = "d1_migrations"
 migrations_dir = "drizzle"
 
-[[ env.prod.d1_databases ]]
+[[ env.preview.d1_databases ]]
 binding = "DB"
-database_name = "ratce-db-prod"
-database_id = "0f77f73b-b9c3-4850-b6e2-9ab80c1b56c0" # pnpm wrangler d1 info ratce-db-prod
+database_name = "ratce-db-preview"
+database_id = "0eaa759e-4a3f-49aa-8a99-c77b44672119" # pnpm wrangler d1 info ratce-db-preview
 preview_database_id = "DB"
 migrations_table = "d1_migrations"
 migrations_dir = "drizzle"
 
-[[ env.preview.d1_databases ]]
+[[ env.prod.d1_databases ]]
 binding = "DB"
-database_name = "ratce-db-preview"
-database_id = "05ff0b5a-7459-4be2-a304-024a60ac34db" # pnpm wrangler d1 info ratce-db-preview
+database_name = "ratce-db-prod"
+database_id = "1b7b69f2-f9ea-4384-9ed0-e6d9bda11c98" # pnpm wrangler d1 info ratce-db-prod
 preview_database_id = "DB"
 migrations_table = "d1_migrations"
 migrations_dir = "drizzle"
+

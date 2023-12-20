@@ -19,10 +19,10 @@
     "drizzle:drop": "drizzle-kit drop",
     "d1:migrate:list": "wrangler d1 migrations list ratce-db-dev --local",
     "d1:migrate:apply": "wrangler d1 migrations apply ratce-db-dev --local",
-    "d1:migrate:list:prod": "wrangler d1 migrations list ratce-db-prod --env prod",
-    "d1:migrate:apply:prod": "wrangler d1 migrations apply ratce-db-prod --env prod",
     "d1:migrate:list:preview": "wrangler d1 migrations list ratce-db-preview --env preview",
     "d1:migrate:apply:preview": "wrangler d1 migrations apply ratce-db-preview --env preview",
+    "d1:migrate:list:prod": "wrangler d1 migrations list ratce-db-prod --env prod",
+    "d1:migrate:apply:prod": "wrangler d1 migrations apply ratce-db-prod --env prod",
     "d1:reset": "tsx scripts/d1-reset.ts",
     "d1:push": "tsx scripts/d1-push.ts",
     "script": "tsx --env-file=.dev.vars"
