@@ -49,6 +49,7 @@ export function hookAuth({
   const authenticator = new Authenticator<User>(sessionStorage, {
     throwOnError: true,
   });
+  const period = 120; // number of seconds the TOTP will be valid.
   authenticator.use(
     new TOTPStrategy(
       {
@@ -57,10 +58,15 @@ export function hookAuth({
         customErrors: {
           // invalidTotp: "Expired TOTP code",
         },
+        totpGeneration: {
+          period,
+        },
 
         storeTOTP: async (data) => {
           console.log("storeTOTP:", data);
-          await KV.put(`totp:${data.hash}`, JSON.stringify(data));
+          await KV.put(`totp:${data.hash}`, JSON.stringify(data), {
+            expirationTtl: period,
+          });
         },
         sendTOTP: async ({ email, code, magicLink }) => {
           console.log("sendTOTP:", { email, code, magicLink });
@@ -76,13 +82,20 @@ export function hookAuth({
           const totpJson = await KV.get(`totp:${hash}`);
           if (!totpJson) return null;
           const totp = JSON.parse(totpJson);
-          console.log("totp:", totp);
           if (data) {
-            const updatedTotp = { ...totp, ...data };
-            console.log("updatedTotp:", updatedTotp);
-            await KV.put(`totp:${hash}`, JSON.stringify(updatedTotp));
-            return updatedTotp;
+            const list = await KV.list({ prefix: `totp:${hash}` });
+            if (list.keys.length === 1) {
+              const updatedTotp = { ...totp, ...data };
+              console.log("updatedTotp:", updatedTotp);
+              console.log("key:", list.keys[0]);
+              await KV.put(`totp:${hash}`, JSON.stringify(updatedTotp), {
+                expiration: list.keys[0].expiration,
+              });
+              return updatedTotp;
+            }
+            return null;
           }
+          console.log("totp:", totp);
           return totp;
         },
       },
