@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { drizzle } from "drizzle-orm/d1";
 import { hookAuth, hookEnv } from "~/lib/hooks.server";
-import { totps as totpTable, users as userTable } from "~/lib/db/schema";
+import { users as userTable } from "~/lib/db/schema";
 import { useLoaderData } from "@remix-run/react";
 
 export async function loader({ context }: LoaderFunctionArgs) {

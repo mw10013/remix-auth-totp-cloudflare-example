@@ -4,7 +4,7 @@ import { Authenticator } from "remix-auth";
 import { TOTPStrategy } from "remix-auth-totp";
 import { sendAuthEmail } from "~/lib/email.server";
 import { drizzle } from "drizzle-orm/d1";
-import { User, totps, users } from "~/lib/db/schema";
+import { User, users } from "~/lib/db/schema";
 import { eq } from "drizzle-orm";
 import invariant from "tiny-invariant";
 
@@ -49,7 +49,7 @@ export function hookAuth({
   const authenticator = new Authenticator<User>(sessionStorage, {
     throwOnError: true,
   });
-  const period = 120; // number of seconds the TOTP will be valid.
+  const period = 60; // number of seconds the TOTP will be valid.
   authenticator.use(
     new TOTPStrategy(
       {
