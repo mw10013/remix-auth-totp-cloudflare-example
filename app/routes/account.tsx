@@ -13,29 +13,23 @@ import { hookAuth, hookEnv } from "~/lib/hooks.server";
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const { env } = hookEnv(context.env);
   const { authenticator } = hookAuth(env);
-  const session = await authenticator.isAuthenticated(request, {
+  const sessionUser = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
-
-  const db = drizzle(env.DB);
-  const [user] = await db.select().from(users).where(eq(users.id, session.id));
-  if (!user) return redirect("/login");
-  return { user, authenticator, session };
+  console.log("account: loader:", { sessionUser, authenticator });
+  return null;
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
   const { env } = hookEnv(context.env);
   const { authenticator, getSession, destroySession } = hookAuth(env);
-  const session = await authenticator.isAuthenticated(request, {
+  const sessionUser = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
 
-  const db = drizzle(env.DB);
-  const [user] = await db.select().from(users).where(eq(users.id, session.id));
-  if (!user) return redirect("/login");
-
   // Delete user.
-  await db.delete(users).where(eq(users.id, session.id));
+  const db = drizzle(env.DB);
+  await db.delete(users).where(eq(users.id, sessionUser.id));
 
   // Destroy session.
   return redirect("/", {
@@ -48,15 +42,13 @@ export async function action({ request, context }: ActionFunctionArgs) {
 }
 
 export default function Route() {
-  const { user } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-sm p-8">
       <Card>
         <CardHeader className="flex gap-3">
           <div className="flex flex-col">
             <p className="text-md">My account</p>
-            <p className="text-small text-default-500">
-            </p>
+            <p className="text-small text-default-500"></p>
           </div>
         </CardHeader>
         <CardBody className="space-y-2">

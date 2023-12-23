@@ -4,7 +4,7 @@ import { Authenticator } from "remix-auth";
 import { TOTPStrategy } from "remix-auth-totp";
 import { sendAuthEmail } from "~/lib/email.server";
 import { drizzle } from "drizzle-orm/d1";
-import { User, users } from "~/lib/db/schema";
+import { SessionUser, User, users } from "~/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export const cloudflareEnvSchema = z.object({
@@ -46,7 +46,7 @@ export function hookAuth({
     },
   });
   const db = drizzle(DB);
-  const authenticator = new Authenticator<User>(sessionStorage);
+  const authenticator = new Authenticator<SessionUser>(sessionStorage);
   const period = 60; // number of seconds the TOTP will be valid.
   authenticator.use(
     new TOTPStrategy(
@@ -101,12 +101,15 @@ export function hookAuth({
       async ({ email }) => {
         console.log("totps verify callback: email:", email);
         let [user] = await db
-          .select()
+          .select({ id: users.id, email: users.email })
           .from(users)
           .where(eq(users.email, email))
           .limit(1);
         if (!user) {
-          [user] = await db.insert(users).values({ email }).returning();
+          [user] = await db
+            .insert(users)
+            .values({ email })
+            .returning({ id: users.id, email: users.email });
           if (!user) throw new Error("Unable to create user.");
         }
         return user;
