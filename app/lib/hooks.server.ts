@@ -46,7 +46,9 @@ export function hookAuth({
     },
   });
   const db = drizzle(DB);
-  const authenticator = new Authenticator<SessionUser>(sessionStorage);
+  const authenticator = new Authenticator<SessionUser>(sessionStorage, {
+    throwOnError: true,
+  });
   const period = 60; // number of seconds the TOTP will be valid.
   authenticator.use(
     new TOTPStrategy(
