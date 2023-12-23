@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/cloudflare";
+import { createWorkersKVSessionStorage } from "@remix-run/cloudflare";
 import { z } from "zod";
 import { Authenticator } from "remix-auth";
 import { TOTPStrategy } from "remix-auth-totp";
@@ -6,7 +6,6 @@ import { sendAuthEmail } from "~/lib/email.server";
 import { drizzle } from "drizzle-orm/d1";
 import { User, users } from "~/lib/db/schema";
 import { eq } from "drizzle-orm";
-import invariant from "tiny-invariant";
 
 export const cloudflareEnvSchema = z.object({
   ENVIRONMENT: z.string().min(1),
@@ -35,7 +34,8 @@ export function hookAuth({
   KV,
   DB,
 }: CloudflareEnv) {
-  const sessionStorage = createCookieSessionStorage({
+  const sessionStorage = createWorkersKVSessionStorage({
+    kv: KV,
     cookie: {
       name: "_auth",
       path: "/",
