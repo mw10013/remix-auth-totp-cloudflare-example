@@ -1,10 +1,10 @@
 import { createWorkersKVSessionStorage } from "@remix-run/cloudflare";
 import { z } from "zod";
 import { Authenticator } from "remix-auth";
-import { TOTPStrategy } from "remix-auth-totp";
+import { TOTPStrategy } from "remix-auth-totp-dev";
 import { sendAuthEmail } from "~/lib/email.server";
 import { drizzle } from "drizzle-orm/d1";
-import { SessionUser, User, users } from "~/lib/db/schema";
+import { SessionUser, users } from "~/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export const cloudflareEnvSchema = z.object({
@@ -45,27 +45,39 @@ export function hookAuth({
       secure: ENVIRONMENT === "production",
     },
   });
-  const db = drizzle(DB);
   const authenticator = new Authenticator<SessionUser>(sessionStorage, {
     throwOnError: true,
   });
-  const period = 60; // number of seconds the TOTP will be valid.
   authenticator.use(
     new TOTPStrategy(
       {
         secret: TOTP_SECRET,
         magicLinkGeneration: { callbackPath: "/magic-link" },
-        customErrors: {
-          // invalidTotp: "Expired TOTP code",
-        },
-        totpGeneration: {
-          period,
-        },
 
-        storeTOTP: async (data) => {
-          console.log("storeTOTP:", data);
+        createTOTP: async (data, expiresAt) => {
+          console.log("createTOTP:", { data, expiresAt });
           await KV.put(`totp:${data.hash}`, JSON.stringify(data), {
-            expirationTtl: period,
+            expirationTtl: Math.max(
+              (expiresAt.getTime() - Date.now()) / 1000,
+              60,
+            ), // >= 60 secs per Cloudflare KV
+          });
+        },
+        readTOTP: async (hash) => {
+          console.log("readTOTP:", hash);
+          const totpJson = await KV.get(`totp:${hash}`);
+          return totpJson ? JSON.parse(totpJson) : null;
+        },
+        updateTOTP: async (hash, data, expiresAt) => {
+          console.log("updateTOTP:", { hash, data, expiresAt });
+          const totpJson = await KV.get(`totp:${hash}`);
+          if (!totpJson) throw new Error("TOTP not found");
+          const totp = JSON.parse(totpJson);
+          await KV.put(`totp:${hash}`, JSON.stringify({ ...totp, ...data }), {
+            expirationTtl: Math.max(
+              (expiresAt.getTime() - Date.now()) / 1000,
+              60,
+            ), // >= 60 secs per Cloudflare KV
           });
         },
         sendTOTP: async ({ email, code, magicLink }) => {
@@ -77,31 +89,10 @@ export function hookAuth({
             resendApiKey: RESEND_API_KEY,
           });
         },
-        handleTOTP: async (hash, data) => {
-          console.log("handleTOTP:", { hash, data });
-          const totpJson = await KV.get(`totp:${hash}`);
-          if (!totpJson) return null;
-          const totp = JSON.parse(totpJson);
-          if (data) {
-            const list = await KV.list({ prefix: `totp:${hash}` });
-            if (list.keys.length === 1 && list.keys[0].expiration) {
-              const updatedTotp = { ...totp, ...data };
-              console.log("updatedTotp:", updatedTotp);
-              console.log("key:", list.keys[0]);
-              const now = Math.floor(Date.now() / 1000);
-              await KV.put(`totp:${hash}`, JSON.stringify(updatedTotp), {
-                expirationTtl: Math.max(list.keys[0].expiration - now, 60), // >= 60 seconds
-              });
-              return updatedTotp;
-            }
-            return null;
-          }
-          console.log("totp:", totp);
-          return totp;
-        },
       },
       async ({ email }) => {
         console.log("totps verify callback: email:", email);
+        const db = drizzle(DB);
         let [user] = await db
           .select({ id: users.id, email: users.email })
           .from(users)

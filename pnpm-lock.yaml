@@ -41,9 +41,9 @@ dependencies:
   remix-auth:
     specifier: ^3.6.0
     version: 3.6.0(@remix-run/react@2.4.0)(@remix-run/server-runtime@2.4.1)
-  remix-auth-totp:
-    specifier: ^1.4.1
-    version: 1.4.1(remix-auth@3.6.0)
+  remix-auth-totp-dev:
+    specifier: ^2.0.0
+    version: 2.0.0(remix-auth@3.6.0)
   tiny-invariant:
     specifier: ^1.3.1
     version: 1.3.1
@@ -6979,8 +6979,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  /jose@5.1.3:
-    resolution: {integrity: sha512-GPExOkcMsCLBTi1YetY2LmkoY559fss0+0KVa6kOfb2YFe84nAM7Nm/XzuZozah4iHgmBGrCOHL5/cy670SBRw==}
+  /jose@5.2.0:
+    resolution: {integrity: sha512-oW3PCnvyrcm1HMvGTzqjxxfnEs9EoFOFWi2HsEGhlFVOXxTE3K9GKWVMFoFw06yPUqwpvEWic1BmtUZBI/tIjw==}
     dev: false
 
   /js-tokens@4.0.0:
@@ -8813,13 +8813,13 @@ packages:
       unified: 10.1.2
     dev: true
 
-  /remix-auth-totp@1.4.1(remix-auth@3.6.0):
-    resolution: {integrity: sha512-gNlEnYaHkjli+Ynqrsx9ZLFIE3dB9Sr6PePeJxNJAmrqrcK8KlfunQ9lHYhuRjGaqB062jvTMQh9vI2mDb2Dtw==}
+  /remix-auth-totp-dev@2.0.0(remix-auth@3.6.0):
+    resolution: {integrity: sha512-8eGWAE6nj0S/qRtxundsRMoQpTpkLZ3Ca01oIqeJjLmR0rr++BOev62eIen+t9uNToeUlfItQzV1HG39nSq6FA==}
     peerDependencies:
       remix-auth: ^3.6.0
     dependencies:
       '@epic-web/totp': 1.1.1
-      jose: 5.1.3
+      jose: 5.2.0
       remix-auth: 3.6.0(@remix-run/react@2.4.0)(@remix-run/server-runtime@2.4.1)
       thirty-two: 1.0.2
     dev: false
