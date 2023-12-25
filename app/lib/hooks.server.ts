@@ -1,7 +1,7 @@
 import { createWorkersKVSessionStorage } from "@remix-run/cloudflare";
 import { z } from "zod";
 import { Authenticator } from "remix-auth";
-import { TOTPStrategy } from "remix-auth-totp-dev";
+import { TOTPStrategy } from "remix-auth-totp";
 import { sendAuthEmail } from "~/lib/email.server";
 import { drizzle } from "drizzle-orm/d1";
 import { SessionUser, users } from "~/lib/db/schema";
