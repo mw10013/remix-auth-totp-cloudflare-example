@@ -14,16 +14,17 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     successRedirect: "/account",
   });
 
-  const cookie = await getSession(request.headers.get("cookie"));
-  const authEmail = cookie.get("auth:email");
-  const authError = cookie.get(authenticator.sessionErrorKey);
+  const session = await getSession(request.headers.get("cookie"));
+  const authError = session.get(authenticator.sessionErrorKey) as {
+    message: string;
+  } | null;
 
   // Commit session to clear any `flash` error message.
   return json(
-    { authEmail, authError },
+    { authError },
     {
       headers: {
-        "set-cookie": await commitSession(cookie),
+        "set-cookie": await commitSession(session),
       },
     },
   );
@@ -32,15 +33,6 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 export async function action({ request, context }: ActionFunctionArgs) {
   const { env } = hookEnv(context.env);
   const { authenticator } = hookAuth(env);
-  let magicUrl = new URL(request.url);
-  magicUrl.pathname = "/magic-link";
-  magicUrl.searchParams.set("code", "QWERT");
-  console.log({
-    magicUrl,
-    host: request.headers.get("host"),
-    xhost: request.headers.get("X-Forwarded-Host"),
-    url: request.url,
-  });
 
   await authenticator.authenticate("TOTP", request, {
     // The `successRedirect` route will be used to verify the OTP code.
@@ -54,7 +46,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
 }
 
 export default function Route() {
-  const { authEmail, authError } = useLoaderData<typeof loader>();
+  const { authError } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-sm p-8">
       <Card>

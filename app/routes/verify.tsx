@@ -15,16 +15,19 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
     successRedirect: "/account",
   });
 
-  const cookie = await getSession(request.headers.get("cookie"));
-  const authEmail = cookie.get("auth:email");
+  const session = await getSession(request.headers.get("cookie"));
+  const authEmail = session.get("auth:email");
   if (!authEmail) return redirect("/login");
+  const authError = session.get(authenticator.sessionErrorKey) as {
+    message: string;
+  } | null;
 
   // Commit session to clear any `flash` error message.
   return json(
-    { authError: cookie.get(authenticator.sessionErrorKey) },
+    { authError },
     {
       headers: {
-        "set-cookie": await commitSession(cookie),
+        "set-cookie": await commitSession(session),
       },
     },
   );
@@ -64,9 +67,11 @@ export default function Route() {
               isInvalid={!!authError}
               errorMessage={authError?.message}
             />
-              <div className="flex justify-end">
-                <Button type="submit" className="w-full" color="primary">Continue</Button>
-              </div>
+            <div className="flex justify-end">
+              <Button type="submit" className="w-full" color="primary">
+                Continue
+              </Button>
+            </div>
           </Form>
         </CardBody>
       </Card>
