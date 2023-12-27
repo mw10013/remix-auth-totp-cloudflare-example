@@ -67,16 +67,16 @@ And you're ready to go! 🎉
   - Production: KV = ratce-kv-prod
   - Preview: KV = ratce-kv-preview
 - Workers & Pages | D1 | Create database | Dashboard
-  - Database name: ratce-db-prod | ratce-db-preview (ie. create 2 databases)
+  - Database name: ratce-d1-prod | ratce-d1-preview (ie. create 2 databases)
   - Note database id's for wrangler.toml.
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | D1 database bindings
-  - Production: DB = ratce-db-prod
-  - Preview: DB = ratce-db-preview
+  - Production: D1 = ratce-d1-prod
+  - Preview: D1 = ratce-d1-preview
 - wrangler.toml
   - [[env.prod.d1_databases]]
-    - databse_id = "<d1 id for ratce-db-prod>"
+    - databse_id = "<d1 id for ratce-d1-prod>"
   - [[env.preview.d1_databases]]
-    - databse_id = "<d1 id for ratce-db-preview>"
+    - databse_id = "<d1 id for ratce-d1-preview>"
 - Apply migrations
   - `pnpm run d1:migrate:apply:prod`
   - `pnpm run d1:migrate:apply:preview`
@@ -84,21 +84,21 @@ And you're ready to go! 🎉
 ## Etc
 
 ```sh
-pnpm wrangler d1 info ratce-db-prod
-pnpm wrangler d1 info ratce-db-preview
+pnpm wrangler d1 info ratce-d1-prod
+pnpm wrangler d1 info ratce-d1-preview
 
 # dev
-pnpm wrangler d1 execute ratce-db-dev --local --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-db-dev --local --command "select * from users;"
-pnpm wrangler d1 execute ratce-db-dev --local --command "select * from totps;"
+pnpm wrangler d1 execute ratce-d1-dev --local --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-d1-dev --local --command "select * from users;"
+pnpm wrangler d1 execute ratce-d1-dev --local --command "select * from totps;"
 
 # prod
-pnpm wrangler d1 execute ratce-db-prod --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-db-prod --command "select * from users;"
-pnpm wrangler d1 migrations list ratce-db-prod --env prod
+pnpm wrangler d1 execute ratce-d1-prod --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-d1-prod --command "select * from users;"
+pnpm wrangler d1 migrations list ratce-d1-prod --env prod
 
 # preview
-pnpm wrangler d1 execute ratce-db-preview --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-db-preview --command "select * from users;"
-pnpm wrangler d1 migrations list ratce-db-preview --env preview
+pnpm wrangler d1 execute ratce-d1-preview --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-d1-preview --command "select * from users;"
+pnpm wrangler d1 migrations list ratce-d1-preview --env preview
 ```

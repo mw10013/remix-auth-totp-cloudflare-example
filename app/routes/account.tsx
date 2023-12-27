@@ -28,7 +28,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
   });
 
   // Delete user.
-  const db = drizzle(env.DB);
+  const db = drizzle(env.D1);
   await db.delete(users).where(eq(users.id, sessionUser.id));
 
   // Destroy session.

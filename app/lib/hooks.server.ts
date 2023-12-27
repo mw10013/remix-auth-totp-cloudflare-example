@@ -13,7 +13,7 @@ export const cloudflareEnvSchema = z.object({
   TOTP_SECRET: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
   KV: z.record(z.unknown()).transform((obj) => obj as unknown as KVNamespace),
-  DB: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
+  D1: z.record(z.unknown()).transform((obj) => obj as unknown as D1Database),
 });
 
 export type CloudflareEnv = z.infer<typeof cloudflareEnvSchema>;
@@ -32,7 +32,7 @@ export function hookAuth({
   RESEND_API_KEY,
   TOTP_SECRET,
   KV,
-  DB,
+  D1,
 }: CloudflareEnv) {
   const sessionStorage = createWorkersKVSessionStorage({
     kv: KV,
@@ -92,7 +92,7 @@ export function hookAuth({
       },
       async ({ email }) => {
         console.log("totps verify callback: email:", email);
-        const db = drizzle(DB);
+        const db = drizzle(D1);
         let [user] = await db
           .select({ id: users.id, email: users.email })
           .from(users)

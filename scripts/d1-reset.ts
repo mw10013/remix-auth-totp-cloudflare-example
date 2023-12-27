@@ -14,5 +14,5 @@ if (sqliteFiles.length !== 1) {
 }
 
 await $`sqlite3 ${sqliteFiles[0]} < scripts/reset-sqlite.sql`;
-await $`wrangler d1 migrations apply ratce-db-dev --local`;
+await $`wrangler d1 migrations apply ratce-d1-dev --local`;
 await $`sqlite3 ${sqliteFiles[0]} "pragma table_list;"`;

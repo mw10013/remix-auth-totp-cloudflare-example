@@ -8,7 +8,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
   const { env } = hookEnv(context.env);
   const { authenticator } = hookAuth(env);
   const totps = await env.KV.list({ prefix: "totp:" });
-  const db = drizzle(env.DB);
+  const db = drizzle(env.D1);
   const users = await db.select().from(userTable);
   return {
     totps,
