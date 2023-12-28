@@ -1,4 +1,4 @@
-import { createWorkersKVSessionStorage } from "@remix-run/cloudflare";
+import { SessionStorage, createWorkersKVSessionStorage } from "@remix-run/cloudflare";
 import { z } from "zod";
 import { Authenticator } from "remix-auth";
 import { TOTPStrategy } from "remix-auth-totp";
@@ -34,7 +34,12 @@ export function hookAuth({
   KV,
   D1,
 }: CloudflareEnv) {
-  const sessionStorage = createWorkersKVSessionStorage({
+  const sessionStorage = createWorkersKVSessionStorage<
+    {
+      "auth:email": string
+    },
+    { "auth:error": { message: string } }
+  >({
     kv: KV,
     cookie: {
       name: "_auth",
@@ -45,7 +50,7 @@ export function hookAuth({
       secure: ENVIRONMENT === "production",
     },
   });
-  const authenticator = new Authenticator<SessionUser>(sessionStorage, {
+  const authenticator = new Authenticator<SessionUser>(sessionStorage as SessionStorage, {
     throwOnError: true,
   });
   authenticator.use(
