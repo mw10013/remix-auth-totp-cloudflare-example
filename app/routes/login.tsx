@@ -1,4 +1,3 @@
-import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -47,32 +46,28 @@ export default function Route() {
   const { authError } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-sm p-8">
-      <Card>
-        <CardHeader className="flex gap-3">
-          <div className="flex flex-col">
-            <p className="text-md">Welcome back</p>
-            <p className="text-small text-default-500">
-              Login in or sign in to your account
-            </p>
+      <h2>Welcome back</h2>
+      <p>Login in or sign in to your account.</p>
+      <Form method="POST" className="space-y-2">
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Email</span>
           </div>
-        </CardHeader>
-        <CardBody>
-          <Form method="post" className="space-y-2">
-            <Input
-              type="email"
-              name="email"
-              label="Email"
-              variant="bordered"
-              isRequired
-              isInvalid={!!authError}
-              errorMessage={authError?.message}
-            />
-            <Button type="submit" className="w-full" color="primary">
-              Continue with Email
-            </Button>
-          </Form>
-        </CardBody>
-      </Card>
+          <input
+            type="email"
+            name="email"
+            className="input input-bordered w-full max-w-xs"
+          />
+          <div className="label">
+            <span className="label-text-alt text-error">
+              {authError?.message}
+            </span>
+          </div>
+        </label>
+        <button type="submit" className="btn btn-primary btn-block">
+          Continue with Email
+        </button>
+      </Form>
     </div>
   );
 }

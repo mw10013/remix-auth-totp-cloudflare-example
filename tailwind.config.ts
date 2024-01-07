@@ -1,4 +1,3 @@
-import { nextui } from "@nextui-org/react";
 import typography from "@tailwindcss/typography";
 import daisyui from "daisyui";
 import type { Config } from "tailwindcss";
@@ -12,7 +11,7 @@ export default {
     extend: {},
   },
   // https://daisyui.com/docs/layout-and-typography/#-1
-  plugins: [nextui(), typography, daisyui],
+  plugins: [typography, daisyui],
 
   // https://daisyui.com/docs/config/
   daisyui: {

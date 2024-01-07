@@ -28,14 +28,12 @@
     "script": "tsx --env-file=.dev.vars"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.2.9",
     "@remix-run/cloudflare": "^2.4.0",
     "@remix-run/cloudflare-pages": "^2.4.0",
     "@remix-run/css-bundle": "^2.4.0",
     "@remix-run/react": "^2.4.0",
     "daisyui": "^4.5.0",
     "drizzle-orm": "^0.29.1",
-    "framer-motion": "^10.16.16",
     "isbot": "^3.6.8",
     "nanoid": "^5.0.4",
     "react": "^18.2.0",

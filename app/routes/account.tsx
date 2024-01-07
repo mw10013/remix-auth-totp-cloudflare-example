@@ -1,10 +1,9 @@
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   redirect,
 } from "@remix-run/cloudflare";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { users } from "~/lib/db/schema";
@@ -44,26 +43,18 @@ export async function action({ request, context }: ActionFunctionArgs) {
 export default function Route() {
   return (
     <div className="mx-auto max-w-sm p-8">
-      <Card>
-        <CardHeader className="flex gap-3">
-          <div className="flex flex-col">
-            <p className="text-md">My account</p>
-            <p className="text-small text-default-500"></p>
-          </div>
-        </CardHeader>
-        <CardBody className="space-y-2">
-          <Form method="POST" autoComplete="off">
-            <Button type="submit" className="w-full" color="primary">
-              Remove account
-            </Button>
-          </Form>
-          <Form method="POST" action="/logout" autoComplete="off">
-            <Button type="submit" className="w-full" color="secondary">
-              Log out
-            </Button>
-          </Form>
-        </CardBody>
-      </Card>
+      <h2>My account</h2>
+      <Form method="POST">
+        <button type="submit" className="btn btn-primary btn-block">
+          Remove account
+        </button>
+      </Form>
+      <br />
+      <Form method="POST" action="/logout">
+        <button type="submit" className="btn btn-secondary btn-block">
+          Log out
+        </button>
+      </Form>
     </div>
   );
 }

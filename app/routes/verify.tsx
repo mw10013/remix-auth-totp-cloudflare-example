@@ -1,4 +1,3 @@
-import { Button, Card, CardBody, CardHeader, Input } from "@nextui-org/react";
 import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -18,7 +17,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get("cookie"));
   const authEmail = session.get("auth:email");
   if (!authEmail) return redirect("/login");
-  const authError = session.get("auth:error")
+  const authError = session.get("auth:error");
 
   // Commit session to clear any `flash` error message.
   return json(
@@ -45,34 +44,28 @@ export default function Route() {
   const { authError } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-sm p-8">
-      <Card>
-        <CardHeader className="flex gap-3">
-          <div className="flex flex-col">
-            <p className="text-md">Please check your inbox </p>
-            <p className="text-small text-default-500">
-              We've sent you a magic link email.
-            </p>
+      <h2>Please check your inbox</h2>
+      <p>We've sent you a magic link email.</p>
+      <Form method="POST" className="space-y-2">
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Code</span>
           </div>
-        </CardHeader>
-        <CardBody>
-          <Form method="post" className="space-y-2">
-            <Input
-              type="text"
-              name="code"
-              label="Code"
-              isRequired
-              variant="bordered"
-              isInvalid={!!authError}
-              errorMessage={authError?.message}
-            />
-            <div className="flex justify-end">
-              <Button type="submit" className="w-full" color="primary">
-                Continue
-              </Button>
-            </div>
-          </Form>
-        </CardBody>
-      </Card>
+          <input
+            type="text"
+            name="code"
+            className="input input-bordered w-full max-w-xs"
+          />
+          <div className="label">
+            <span className="label-text-alt text-error">
+              {authError?.message}
+            </span>
+          </div>
+        </label>
+        <button type="submit" className="btn btn-primary w-full">
+          Continue
+        </button>
+      </Form>
     </div>
   );
 }

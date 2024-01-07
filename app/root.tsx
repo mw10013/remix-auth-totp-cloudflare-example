@@ -9,8 +9,6 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
-import { NextUIProvider } from "@nextui-org/react";
-import { Navigation } from "./components/navigation";
 import { GenericErrorBoundary } from "~/components/error-boundary";
 
 /**
@@ -40,31 +38,28 @@ function Document({
   lang?: string;
 }) {
   return (
-    <html lang={lang}>
+    <html lang={lang} data-theme="light">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased dark">
-        <NextUIProvider>
-          {/* https://github.com/nextui-org/next-app-template/blob/main/app/layout.tsx */}
-          <div className="relative flex h-screen flex-col">
-            <div className="navbar bg-base-100">
-              <Link to="/" className="link text-xl">Remix Auth TOTP</Link>
-            {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
-            </div>
-            <Navigation />
-            <main className="container mx-auto max-w-7xl grow px-6 pt-16">
-              {children}
-            </main>
-            <ScrollRestoration />
-            <Scripts />
-            {/* {process.env.NODE_ENV === "development" && <LiveReload />} */}
-            <LiveReload />
+      <body className="min-h-screen bg-base-100 font-sans antialiased dark">
+        <div className="relative flex h-screen flex-col">
+          <div className="navbar bg-base-100">
+            <Link to="/" className="btn btn-ghost text-xl">
+              Remix Auth TOTP
+            </Link>
           </div>
-        </NextUIProvider>
+          <main className="container prose mx-auto max-w-7xl grow px-6 pt-16">
+            {children}
+          </main>
+          <ScrollRestoration />
+          <Scripts />
+          {/* {process.env.NODE_ENV === "development" && <LiveReload />} */}
+          <LiveReload />
+        </div>
       </body>
     </html>
   );
