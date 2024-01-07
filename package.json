@@ -33,6 +33,7 @@
     "@remix-run/cloudflare-pages": "^2.4.0",
     "@remix-run/css-bundle": "^2.4.0",
     "@remix-run/react": "^2.4.0",
+    "daisyui": "^4.5.0",
     "drizzle-orm": "^0.29.1",
     "framer-motion": "^10.16.16",
     "isbot": "^3.6.8",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231218.0",
     "@remix-run/dev": "^2.4.0",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",

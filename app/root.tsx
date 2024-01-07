@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -50,6 +51,10 @@ function Document({
         <NextUIProvider>
           {/* https://github.com/nextui-org/next-app-template/blob/main/app/layout.tsx */}
           <div className="relative flex h-screen flex-col">
+            <div className="navbar bg-base-100">
+              <Link to="/" className="link text-xl">Remix Auth TOTP</Link>
+            {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
+            </div>
             <Navigation />
             <main className="container mx-auto max-w-7xl grow px-6 pt-16">
               {children}

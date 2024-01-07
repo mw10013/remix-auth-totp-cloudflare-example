@@ -1,4 +1,6 @@
 import { nextui } from "@nextui-org/react";
+import typography from "@tailwindcss/typography";
+import daisyui from "daisyui";
 import type { Config } from "tailwindcss";
 
 export default {
@@ -9,6 +11,18 @@ export default {
   theme: {
     extend: {},
   },
-  darkMode: "class",
-  plugins: [nextui()],
+  // https://daisyui.com/docs/layout-and-typography/#-1
+  plugins: [nextui(), typography, daisyui],
+
+  // https://daisyui.com/docs/config/
+  daisyui: {
+    themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    darkTheme: "dark", // name of one of the included themes for dark mode
+    base: true, // applies background color and foreground color for root element by default
+    styled: true, // include daisyUI colors and design decisions for all components
+    utils: true, // adds responsive and modifier utility classes
+    prefix: "", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
+    logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
+    themeRoot: ":root", // The element that receives theme color CSS variables
+  },
 } satisfies Config;
