@@ -44,9 +44,9 @@ dependencies:
   remix-auth:
     specifier: ^3.6.0
     version: 3.6.0(@remix-run/react@2.4.0)(@remix-run/server-runtime@2.4.1)
-  remix-auth-totp:
-    specifier: ^2.0.0
-    version: 2.0.0(remix-auth@3.6.0)
+  remix-auth-totp-dev:
+    specifier: ^3.0.0
+    version: 3.0.0(remix-auth@3.6.0)
   tiny-invariant:
     specifier: ^1.3.1
     version: 1.3.1
@@ -8890,8 +8890,8 @@ packages:
       unified: 10.1.2
     dev: true
 
-  /remix-auth-totp@2.0.0(remix-auth@3.6.0):
-    resolution: {integrity: sha512-HyFarhpLkfG2CAUyoT+6TLAoWCHLEtA/ueci55CoMW7bVscGLMdvERnCeSueIjUxlBR9cIrsk6eLpnr74OvOTA==}
+  /remix-auth-totp-dev@3.0.0(remix-auth@3.6.0):
+    resolution: {integrity: sha512-sxYUcUidEPlRxFv9yZm96gfsKNmxY9eDp3/h1gzHpl4WyBiDEztU+VwGCn34+bBiZpXNrPgXkjLaVsm9Y7uXkg==}
     peerDependencies:
       remix-auth: ^3.6.0
     dependencies:

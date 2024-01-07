@@ -4,7 +4,7 @@ import {
 } from "@remix-run/cloudflare";
 import { z } from "zod";
 import { Authenticator } from "remix-auth";
-import { TOTPStrategy } from "remix-auth-totp";
+import { TOTPStrategy } from "remix-auth-totp-dev";
 import { sendAuthEmail } from "~/lib/email.server";
 import { drizzle } from "drizzle-orm/d1";
 import { SessionUser, users } from "~/lib/db/schema";
@@ -60,34 +60,7 @@ export function hookAuth({
     new TOTPStrategy(
       {
         secret: TOTP_SECRET,
-        magicLinkGeneration: { callbackPath: "/magic-link" },
-
-        createTOTP: async (data, expiresAt) => {
-          console.log("createTOTP:", { data, expiresAt });
-          await KV.put(`totp:${data.hash}`, JSON.stringify(data), {
-            expirationTtl: Math.max(
-              (expiresAt.getTime() - Date.now()) / 1000,
-              60,
-            ), // >= 60 secs per Cloudflare KV
-          });
-        },
-        readTOTP: async (hash) => {
-          console.log("readTOTP:", hash);
-          const totpJson = await KV.get(`totp:${hash}`);
-          return totpJson ? JSON.parse(totpJson) : null;
-        },
-        updateTOTP: async (hash, data, expiresAt) => {
-          console.log("updateTOTP:", { hash, data, expiresAt });
-          const totpJson = await KV.get(`totp:${hash}`);
-          if (!totpJson) throw new Error("TOTP not found");
-          const totp = JSON.parse(totpJson);
-          await KV.put(`totp:${hash}`, JSON.stringify({ ...totp, ...data }), {
-            expirationTtl: Math.max(
-              (expiresAt.getTime() - Date.now()) / 1000,
-              60,
-            ), // >= 60 secs per Cloudflare KV
-          });
-        },
+        magicLinkPath: "/magic-link",
         sendTOTP: async ({ email, code, magicLink }) => {
           console.log("sendTOTP:", { email, code, magicLink });
           await sendAuthEmail({
