@@ -8,8 +8,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import styles from "./tailwind.css";
 import { GenericErrorBoundary } from "~/components/error-boundary";
+import styles from "./tailwind.css";
 
 /**
  * We take simplistic approach to meta and only define it in root.
@@ -45,7 +45,7 @@ function Document({
         <Meta />
         <Links />
       </head>
-      <body className="min-h-screen bg-base-100 font-sans antialiased dark">
+      <body className="dark min-h-screen bg-base-100 font-sans antialiased">
         <div className="relative flex h-screen flex-col">
           <div className="navbar bg-base-100">
             <Link to="/" className="btn btn-ghost text-xl">
