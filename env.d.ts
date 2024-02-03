@@ -8,10 +8,6 @@ declare module "@remix-run/cloudflare" {
     env: {
       KV: KVNamespace;
       D1: D1Database;
-      ENVIRONMENT: string;
-      SESSION_SECRET: string;
-      TOTP_SECRET: string;
-      RESEND_API_KEY: string;
     };
   }
 }
