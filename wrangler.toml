@@ -1,0 +1,3 @@
+kv_namespaces = [
+  { id = "rcf-kv-dev", binding="KV" }
+]

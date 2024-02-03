@@ -1,0 +1,11 @@
+node_modules
+pnpm-lock.yaml
+
+/.cache
+/build
+.env
+
+.wrangler
+
+vite.config.ts.timestamp*
+
