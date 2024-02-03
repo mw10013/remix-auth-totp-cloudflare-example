@@ -2,7 +2,7 @@
 compatibility_date = "2023-12-01"
 
 kv_namespaces = [
-  { id = "rcf-kv-dev", binding="KV" }
+  { id = "ratce-kv-dev", binding="KV" }
 ]
 
 # https://developers.cloudflare.com/d1/learning/local-development/#develop-locally-with-pages
