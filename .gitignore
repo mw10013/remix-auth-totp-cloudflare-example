@@ -6,4 +6,5 @@ node_modules
 
 .wrangler
 
+.DS_Store
 vite.config.ts.timestamp*
