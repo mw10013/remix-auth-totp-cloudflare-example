@@ -53,6 +53,8 @@ And you're ready to go! 🎉
   - Follow the Cloudflare workflow to link the repo.
   - Set up builds and deployments form
     - Framework preset: Remix
+    - Build command: pnpm run build
+    - Build output directory: build/client
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Environment variables (for Production and Preview)
   - See .dev.vars.example for reference.
   - ENVIRONMENT = production | preview (ie. specify production for Production and preview for Preview)
@@ -60,7 +62,7 @@ And you're ready to go! 🎉
   - TOTP_SECRET
   - RESEND_API_KEY
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
-  - Specify `2023-12-01` for Production and Preview
+  - Specify `2024-02-03` for Production and Preview
 - Workers & Pages | KV | Create a namespace
   - Namespace name: ratce-kv-prod | ratce-kv-preview (ie. create 2 kv's)
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | KV namespace bindings

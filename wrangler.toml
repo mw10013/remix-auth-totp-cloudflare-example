@@ -1,5 +1,5 @@
 # https://developers.cloudflare.com/workers/configuration/compatibility-dates/
-compatibility_date = "2023-12-01"
+compatibility_date = "2024-02-03"
 
 kv_namespaces = [
   { id = "ratce-kv-dev", binding="KV" }
