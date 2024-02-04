@@ -8,7 +8,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   resolve: {
     alias: {
-      crypto: "crypto-browserify",
+      // crypto: "crypto-browserify",
       // stream: "node:stream",
       // events: "node:events",
       // crypto: "node:crypto",
