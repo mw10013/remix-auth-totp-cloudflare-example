@@ -1,3 +1,5 @@
+import * as crypto from "crypto";
+import { Buffer } from "node:buffer";
 import {
   createWorkersKVSessionStorage,
   SessionStorage,
@@ -26,6 +28,9 @@ export function hookEnv(env: unknown) {
     cloudflareEnvSchema.parse(obj);
   }
   assertCloudflareEnv(env);
+  globalThis.Buffer = Buffer;
+  // console.log("crypto:", crypto.randomBytes(10));
+  console.log("crypto:", crypto.randomBytes(10));
   return { env };
 }
 
