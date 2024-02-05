@@ -1,4 +1,3 @@
-import * as crypto from "crypto";
 import { Buffer } from "node:buffer";
 import {
   createWorkersKVSessionStorage,
@@ -7,7 +6,7 @@ import {
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Authenticator } from "remix-auth";
-import { TOTPStrategy } from "remix-auth-totp-dev";
+import { TOTPStrategy } from "remix-auth-totp";
 import { z } from "zod";
 import { SessionUser, users } from "~/lib/db/schema";
 import { sendAuthEmail } from "~/lib/email.server";
@@ -24,13 +23,13 @@ export const cloudflareEnvSchema = z.object({
 export type CloudflareEnv = z.infer<typeof cloudflareEnvSchema>;
 
 export function hookEnv(env: unknown) {
+  globalThis.Buffer = Buffer;
+
   function assertCloudflareEnv(obj: unknown): asserts obj is CloudflareEnv {
     cloudflareEnvSchema.parse(obj);
   }
   assertCloudflareEnv(env);
   globalThis.Buffer = Buffer;
-  // console.log("crypto:", crypto.randomBytes(10));
-  console.log("crypto:", crypto.randomBytes(10));
   return { env };
 }
 
