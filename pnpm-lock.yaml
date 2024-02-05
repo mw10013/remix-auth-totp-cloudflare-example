@@ -88,7 +88,7 @@ dependencies:
     version: 3.6.0(@remix-run/react@2.6.0)(@remix-run/server-runtime@2.6.0)
   remix-auth-totp:
     specifier: github:mw10013/remix-auth-totp#session
-    version: github.com/mw10013/remix-auth-totp/f65003eb105821fdd53e9eec3a9119f519d65da7(remix-auth@3.6.0)
+    version: github.com/mw10013/remix-auth-totp/859b50053d7a3d37f30073ff810305cf1a050448(remix-auth@3.6.0)
   sonner:
     specifier: ^1.4.0
     version: 1.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -614,6 +614,13 @@ packages:
   /@emotion/hash@0.9.1:
     resolution: {integrity: sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==}
     dev: true
+
+  /@epic-web/totp@1.1.2:
+    resolution: {integrity: sha512-ngw0+NjNgZ1ikmascnQWfut7dj0cuWqKwDM7m2w7JoOXHZCR0C5cx2aUPIl8oHOO2DQzkI6yaJLoc1bMDOn/oQ==}
+    engines: {node: '>=18'}
+    dependencies:
+      thirty-two: 1.0.2
+    dev: false
 
   /@esbuild-kit/core-utils@3.3.2:
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
@@ -5841,8 +5848,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  /jose@5.2.0:
-    resolution: {integrity: sha512-oW3PCnvyrcm1HMvGTzqjxxfnEs9EoFOFWi2HsEGhlFVOXxTE3K9GKWVMFoFw06yPUqwpvEWic1BmtUZBI/tIjw==}
+  /jose@5.2.1:
+    resolution: {integrity: sha512-qiaQhtQRw6YrOaOj0v59h3R6hUY9NvxBmmnMfKemkqYmBB0tEc97NbLP7ix44VP5p9/0YHG8Vyhzuo5YBNwviA==}
     dev: false
 
   /js-tokens@4.0.0:
@@ -9270,26 +9277,18 @@ packages:
       yaml: 2.3.4
     dev: true
 
-  github.com/mw10013/remix-auth-totp/f65003eb105821fdd53e9eec3a9119f519d65da7(remix-auth@3.6.0):
-    resolution: {tarball: https://codeload.github.com/mw10013/remix-auth-totp/tar.gz/f65003eb105821fdd53e9eec3a9119f519d65da7}
-    id: github.com/mw10013/remix-auth-totp/f65003eb105821fdd53e9eec3a9119f519d65da7
+  github.com/mw10013/remix-auth-totp/859b50053d7a3d37f30073ff810305cf1a050448(remix-auth@3.6.0):
+    resolution: {tarball: https://codeload.github.com/mw10013/remix-auth-totp/tar.gz/859b50053d7a3d37f30073ff810305cf1a050448}
+    id: github.com/mw10013/remix-auth-totp/859b50053d7a3d37f30073ff810305cf1a050448
     name: remix-auth-totp
     version: 2.0.0
+    prepare: true
     requiresBuild: true
     peerDependencies:
       remix-auth: ^3.6.0
     dependencies:
-      '@epic-web/totp': github.com/mw10013/totp/41e93fac450611ceb4d20113aa3ec70a24b2beff
-      jose: 5.2.0
+      '@epic-web/totp': 1.1.2
+      jose: 5.2.1
       remix-auth: 3.6.0(@remix-run/react@2.6.0)(@remix-run/server-runtime@2.6.0)
-      thirty-two: 1.0.2
-    dev: false
-
-  github.com/mw10013/totp/41e93fac450611ceb4d20113aa3ec70a24b2beff:
-    resolution: {tarball: https://codeload.github.com/mw10013/totp/tar.gz/41e93fac450611ceb4d20113aa3ec70a24b2beff}
-    name: '@epic-web/totp'
-    version: 0.0.0-semantically-released
-    engines: {node: '>=18'}
-    dependencies:
       thirty-two: 1.0.2
     dev: false
