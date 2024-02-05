@@ -11,9 +11,6 @@ dependencies:
   '@conform-to/zod':
     specifier: ^1.0.0
     version: 1.0.0(zod@3.22.4)
-  '@epic-web/totp':
-    specifier: ^1.1.1
-    version: 1.1.1
   '@radix-ui/react-checkbox':
     specifier: ^1.0.4
     version: 1.0.4(@types/react-dom@18.2.18)(@types/react@18.2.51)(react-dom@18.2.0)(react@18.2.0)
@@ -617,13 +614,6 @@ packages:
   /@emotion/hash@0.9.1:
     resolution: {integrity: sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==}
     dev: true
-
-  /@epic-web/totp@1.1.1:
-    resolution: {integrity: sha512-7FIStgheUm6EuOp5DDTrID5K5G3TzCNRaNvUYi7MBjdHW5gappPrg41IId95Q1fWN9S85R1P7Uoi2CSG7X7n1Q==}
-    engines: {node: '>=18'}
-    dependencies:
-      thirty-two: 1.0.2
-    dev: false
 
   /@esbuild-kit/core-utils@3.3.2:
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
