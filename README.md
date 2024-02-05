@@ -63,6 +63,8 @@ And you're ready to go! 🎉
   - RESEND_API_KEY
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility date
   - Specify `2024-02-03` for Production and Preview
+- Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | Compatibility flags
+  - Specify `nodejs_compat` for Production and Preview
 - Workers & Pages | KV | Create a namespace
   - Namespace name: ratce-kv-prod | ratce-kv-preview (ie. create 2 kv's)
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Functions | KV namespace bindings
