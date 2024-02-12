@@ -29,7 +29,6 @@ export function hookEnv(env: unknown) {
     cloudflareEnvSchema.parse(obj);
   }
   assertCloudflareEnv(env);
-  globalThis.Buffer = Buffer;
   return { env };
 }
 
