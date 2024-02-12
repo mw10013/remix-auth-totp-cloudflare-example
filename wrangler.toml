@@ -1,5 +1,7 @@
 # https://developers.cloudflare.com/workers/configuration/compatibility-dates/
 compatibility_date = "2024-02-03"
+
+# https://developers.cloudflare.com/workers/runtime-apis/nodejs/#enable-nodejs-with-workers
 compatibility_flags = [ "nodejs_compat" ]
 
 kv_namespaces = [
