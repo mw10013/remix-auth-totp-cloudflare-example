@@ -11,7 +11,8 @@ import { Label } from "~/components/ui/label";
 import { hookAuth, hookEnv } from "~/lib/hooks.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const { env } = hookEnv(context.env);
+  console.log("context: %o", context);
+  const { env } = hookEnv(context.cloudflare.env);
   const { authenticator, getSession, commitSession } = hookAuth(env);
   await authenticator.isAuthenticated(request, {
     successRedirect: "/account",
@@ -32,7 +33,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
-  const { env } = hookEnv(context.env);
+  const { env } = hookEnv(context.cloudflare.env);
   const { authenticator } = hookAuth(env);
 
   await authenticator.authenticate("TOTP", request, {
@@ -56,7 +57,7 @@ export default function Route() {
       <Form method="POST" className="mt-2">
         <Label htmlFor="email">Email</Label>
         <Input type="email" name="email" id="email" />
-        <Small className="text-destructive mt-1">{authError?.message}</Small>
+        <Small className="mt-1 text-destructive">{authError?.message}</Small>
         <Button type="submit" className="mt-4">
           Continue with Email
         </Button>
