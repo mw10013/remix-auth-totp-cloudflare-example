@@ -56,7 +56,7 @@
     "react-dom": "^18.2.0",
     "react-twc": "^1.4.1",
     "remix-auth": "^3.6.0",
-    "remix-auth-totp": "github:mw10013/remix-auth-totp#session",
+    "remix-auth-totp": "^3.0.0",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
