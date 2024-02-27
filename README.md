@@ -56,7 +56,7 @@ And you're ready to go! 🎉
     - Build command: pnpm run build
     - Build output directory: build/client
 - Workers & Pages | Overview | remix-auth-totp-cloudflare-example | Settings | Environment variables (for Production and Preview)
-  - See .dev.vars.example for reference.
+  - See .dev.vars.example and wrangler.toml for reference.
   - ENVIRONMENT = production | preview (ie. specify production for Production and preview for Preview)
   - SESSION_SECRET
   - TOTP_SECRET

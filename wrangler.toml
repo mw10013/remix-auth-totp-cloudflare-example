@@ -20,7 +20,7 @@ migrations_dir = "drizzle"
 [[ env.preview.d1_databases ]]
 binding = "D1"
 database_name = "ratce-d1-preview"
-database_id = "1af6c629-8202-42e9-9982-e7f5ecc53f98" # pnpm wrangler d1 info ratce-d1-preview
+database_id = "f954307f-89e9-447c-85c1-e46e9f905db4" # pnpm wrangler d1 info ratce-d1-preview
 preview_database_id = "D1"
 migrations_table = "d1_migrations"
 migrations_dir = "drizzle"
