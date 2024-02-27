@@ -1,5 +1,3 @@
-# development | preview | production
-ENVIRONMENT=development
 SESSION_SECRET=SESSION_SECRET
 TOTP_SECRET=TOTP_SECRET
 RESEND_API_KEY=

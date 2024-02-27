@@ -8,12 +8,12 @@ import { H3, P, Small } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { hookAuth, hookEnv } from "~/lib/hooks.server";
+import { createServices } from "~/lib/services.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  console.log("context: %o", context);
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator, getSession, commitSession } = hookAuth(env);
+  const {
+    auth: { authenticator, getSession, commitSession },
+  } = createServices(context);
   await authenticator.isAuthenticated(request, {
     successRedirect: "/account",
   });
@@ -33,9 +33,9 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator } = hookAuth(env);
-
+  const {
+    auth: { authenticator },
+  } = createServices(context);
   await authenticator.authenticate("TOTP", request, {
     // The `successRedirect` route will be used to verify the TOTP code.
     // This could be the current pathname or any other route that renders the verification form.

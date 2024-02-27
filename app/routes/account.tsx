@@ -5,15 +5,15 @@ import {
 } from "@remix-run/cloudflare";
 import { Form } from "@remix-run/react";
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
 import { H3 } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import { users } from "~/lib/db/schema";
-import { hookAuth, hookEnv } from "~/lib/hooks.server";
+import { createServices } from "~/lib/services.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator } = hookAuth(env);
+  const {
+    auth: { authenticator },
+  } = createServices(context);
   const sessionUser = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
@@ -22,14 +22,15 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator, getSession, destroySession } = hookAuth(env);
+  const {
+    db,
+    auth: { authenticator, getSession, destroySession },
+  } = createServices(context);
   const sessionUser = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
 
   // Delete user.
-  const db = drizzle(env.D1);
   await db.delete(users).where(eq(users.id, sessionUser.id));
 
   // Destroy session.

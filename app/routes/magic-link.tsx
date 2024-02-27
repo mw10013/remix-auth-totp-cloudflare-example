@@ -1,9 +1,10 @@
 import { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { hookAuth, hookEnv } from "~/lib/hooks.server";
+import { createServices } from "~/lib/services.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator } = hookAuth(env);
+  const {
+    auth: { authenticator },
+  } = createServices(context);
   await authenticator.authenticate("TOTP", request, {
     successRedirect: "/account",
     failureRedirect: "/login",

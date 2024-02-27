@@ -1,10 +1,19 @@
 node_modules
+.env
+.tmp
+.DS_Store
 
+# Remix
 /.cache
 /build
+
+# Cloudflare
+.wrangler
 .dev.vars
 
-.wrangler
+# Playwright
+/test-results
+/playwright-report
 
-.DS_Store
-vite.config.ts.timestamp*
+#Vite
+vite.config.ts.timestamp-*

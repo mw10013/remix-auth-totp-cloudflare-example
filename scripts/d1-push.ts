@@ -1,12 +1,11 @@
 import { $, glob } from "zx";
 
 /**
- * Push schema to the local d1 database in .wrangler.
- * This will only work locally.
- * Push seems to delete the _cf_KV and d1_migrations tables.
- * wrangler d1 migrations list [database_name] --local
- * seems to restore them, but push and migrations are not compatible.
+ * Push schema to the local d1 database.
  */
+
+// Ensure db created.
+await $`pnpm wrangler d1 execute local-d1-dev --local --command "select datetime('now');"`;
 
 const sqliteFiles = await glob("./.wrangler/**/*.sqlite");
 console.log({ sqliteFiles });
@@ -16,4 +15,8 @@ if (sqliteFiles.length !== 1) {
   process.exit(1);
 }
 
-await $`drizzle-kit push:sqlite --schema=./app/lib/db/schema.ts --driver=better-sqlite --url=${sqliteFiles[0]} --verbose`;
+// Pull to get kv and migration tables.
+await $`pnpm drizzle-kit introspect:sqlite --out=./.tmp/drizzle-pull --driver=better-sqlite --url=${sqliteFiles[0]}`;
+
+// d1-push-schema contains app schema along with kv and migrations tables.
+await $`pnpm drizzle-kit push:sqlite --schema=./scripts/d1-push-schema.ts --driver=better-sqlite --url=${sqliteFiles[0]} --verbose --strict`;

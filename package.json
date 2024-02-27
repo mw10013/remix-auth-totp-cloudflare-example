@@ -10,6 +10,7 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "wrangler pages dev ./build/client --compatibility-date=2024-02-03 --compatibility-flags=nodejs_compat",
     "typecheck": "tsc",
+    "typegen": "wrangler types",
     "format": "prettier --write .",
     "tail:prod": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example --environment production",
     "tail:preview": "wrangler pages deployment tail --project-name remix-auth-totp-cloudflare-example --environment preview",
@@ -19,15 +20,14 @@
     "drizzle:up": "drizzle-kit up:sqlite",
     "drizzle:check": "drizzle-kit check:sqlite",
     "drizzle:drop": "drizzle-kit drop",
-    "d1:migrate:list": "wrangler d1 migrations list ratce-d1-dev --local",
-    "d1:migrate:apply": "wrangler d1 migrations apply ratce-d1-dev --local",
+    "d1:migrate:list": "wrangler d1 migrations list local-d1-dev --local",
+    "d1:migrate:apply": "wrangler d1 migrations apply local-d1-dev --local",
     "d1:migrate:list:preview": "wrangler d1 migrations list ratce-d1-preview --env preview",
     "d1:migrate:apply:preview": "wrangler d1 migrations apply ratce-d1-preview --env preview",
     "d1:migrate:list:prod": "wrangler d1 migrations list ratce-d1-prod --env prod",
     "d1:migrate:apply:prod": "wrangler d1 migrations apply ratce-d1-prod --env prod",
     "d1:reset": "tsx scripts/d1-reset.ts",
-    "d1:push": "tsx scripts/d1-push.ts",
-    "script": "tsx --env-file=.dev.vars"
+    "d1:push": "tsx scripts/d1-push.ts"
   },
   "dependencies": {
     "@conform-to/react": "^1.0.0",
@@ -50,7 +50,6 @@
     "drizzle-orm": "^0.29.3",
     "isbot": "^4.1.0",
     "lucide-react": "^0.321.0",
-    "nanoid": "^5.0.5",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -89,7 +88,7 @@
     "typescript": "^5.1.6",
     "vite": "^5.1.4",
     "vite-tsconfig-paths": "^4.2.1",
-    "wrangler": "^3.29.0",
+    "wrangler": "^3.30.0",
     "zx": "^7.2.3"
   },
   "engines": {

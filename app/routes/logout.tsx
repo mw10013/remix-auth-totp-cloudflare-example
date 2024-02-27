@@ -1,14 +1,16 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { hookAuth, hookEnv } from "~/lib/hooks.server";
+import { createServices } from "~/lib/services.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator } = hookAuth(env);
+  const {
+    auth: { authenticator },
+  } = createServices(context);
   return await authenticator.logout(request, { redirectTo: "/" });
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator } = hookAuth(env);
+  const {
+    auth: { authenticator },
+  } = createServices(context);
   return await authenticator.logout(request, { redirectTo: "/" });
 }

@@ -9,11 +9,12 @@ import { H3, P, Small } from "~/components/typography";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { hookAuth, hookEnv } from "~/lib/hooks.server";
+import { createServices } from "~/lib/services.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator, getSession, commitSession } = hookAuth(env);
+  const {
+    auth: { authenticator, getSession, commitSession },
+  } = createServices(context);
   await authenticator.isAuthenticated(request, {
     successRedirect: "/account",
   });
@@ -35,9 +36,10 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 export async function action({ request, context }: ActionFunctionArgs) {
+  const {
+    auth: { authenticator },
+  } = createServices(context);
   const url = new URL(request.url);
-  const { env } = hookEnv(context.cloudflare.env);
-  const { authenticator } = hookAuth(env);
   await authenticator.authenticate("TOTP", request, {
     successRedirect: url.pathname,
     failureRedirect: url.pathname,
