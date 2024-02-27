@@ -51,7 +51,7 @@ export default function Route() {
   return (
     <div className="mx-auto max-w-sm p-8">
       <H3>Please check your inbox</H3>
-      <P>We've sent you a magic link email.</P>
+      <P>We have sent you a magic link email.</P>
       <Form method="POST" className="mt-2 space-y-2">
         <Label htmlFor="code">Code</Label>
         <Input type="text" name="code" id="code" />

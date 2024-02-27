@@ -47,7 +47,7 @@ export default function Route() {
   return (
     <div className="mx-auto max-w-sm p-8">
       <H3>My account</H3>
-      <div className="flex flex-col gap-2 mt-4">
+      <div className="mt-4 flex flex-col gap-2">
         <Form method="POST">
           <Button type="submit" variant="destructive" className="w-full">
             Remove account

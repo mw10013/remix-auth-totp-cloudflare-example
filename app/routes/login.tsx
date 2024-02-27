@@ -58,9 +58,7 @@ export default function Route() {
         <Label htmlFor="email">Email</Label>
         <Input type="email" name="email" id="email" />
         <Small className="mt-1 text-destructive">{authError?.message}</Small>
-        <Button type="submit">
-          Continue with Email
-        </Button>
+        <Button type="submit">Continue with Email</Button>
       </Form>
     </div>
   );

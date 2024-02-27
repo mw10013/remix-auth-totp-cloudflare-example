@@ -7,5 +7,7 @@ pnpm-lock.yaml
 
 .wrangler
 
+drizzle
+
 vite.config.ts.timestamp*
 
