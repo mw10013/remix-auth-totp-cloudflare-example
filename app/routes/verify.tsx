@@ -52,13 +52,11 @@ export default function Route() {
     <div className="mx-auto max-w-sm p-8">
       <H3>Please check your inbox</H3>
       <P>We've sent you a magic link email.</P>
-      <Form method="POST" className="mt-2">
+      <Form method="POST" className="mt-2 space-y-2">
         <Label htmlFor="code">Code</Label>
         <Input type="text" name="code" id="code" />
         <Small className="mt-1 text-destructive">{authError?.message}</Small>
-        <Button type="submit" className="mt-4">
-          Continue
-        </Button>
+        <Button type="submit">Continue</Button>
       </Form>
     </div>
   );

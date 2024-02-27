@@ -54,11 +54,11 @@ export default function Route() {
       <P className="[&:not(:first-child)]:mt-0">
         Login in or sign in to your account.
       </P>
-      <Form method="POST" className="mt-2">
+      <Form method="POST" className="mt-2 space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input type="email" name="email" id="email" />
         <Small className="mt-1 text-destructive">{authError?.message}</Small>
-        <Button type="submit" className="mt-4">
+        <Button type="submit">
           Continue with Email
         </Button>
       </Form>
