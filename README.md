@@ -1,6 +1,6 @@
 # Welcome to Remix Auth TOTP - Remix Auth TOTP Example
 
-This repository has been created with the intent to provide a simple example of how to use Remix Auth TOTP on Cloudflare. This example uses Drizzle ORM and Cloudflare D1 SQLite to store and handle the authentication flow.
+This repository is a simple example of how to use Remix Auth TOTP on Cloudflare.
 
 ## Getting Started
 
@@ -88,21 +88,19 @@ And you're ready to go! 🎉
 ## Etc
 
 ```sh
-pnpm wrangler d1 info ratce-d1-prod
 pnpm wrangler d1 info ratce-d1-preview
+pnpm wrangler d1 info ratce-d1-prod
 
 # dev
-pnpm wrangler d1 execute ratce-d1-dev --local --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-d1-dev --local --command "select * from users;"
-pnpm wrangler d1 execute ratce-d1-dev --local --command "select * from totps;"
-
-# prod
-pnpm wrangler d1 execute ratce-d1-prod --command "select * from d1_migrations;"
-pnpm wrangler d1 execute ratce-d1-prod --command "select * from users;"
-pnpm wrangler d1 migrations list ratce-d1-prod --env prod
+pnpm wrangler d1 execute local-d1-dev --local --command "select * from d1_migrations;"
+pnpm wrangler d1 execute local-d1-dev --local --command "select * from users;"
 
 # preview
 pnpm wrangler d1 execute ratce-d1-preview --command "select * from d1_migrations;"
 pnpm wrangler d1 execute ratce-d1-preview --command "select * from users;"
-pnpm wrangler d1 migrations list ratce-d1-preview --env preview
+
+# prod
+pnpm wrangler d1 execute ratce-d1-prod --command "select * from d1_migrations;"
+pnpm wrangler d1 execute ratce-d1-prod --command "select * from users;"
+
 ```
