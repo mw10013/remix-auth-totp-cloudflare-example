@@ -75,13 +75,23 @@ export function createAuth({
         magicLinkPath: "/magic-link",
         sendTOTP: async ({ email, code, magicLink }) => {
           console.log("sendTOTP:", { email, code, magicLink });
-          if (ENVIRONMENT != "development") {
+          try {
             await sendAuthEmail({
               email,
               code,
               magicLink,
               resendApiKey: RESEND_API_KEY,
             });
+            // WARNING: catch is obviously not secure so don't copy/paste.
+          } catch (error: unknown) {
+            console.error("Error sending email:", error);
+            KV.put(
+              `simulateEmail:${email}`,
+              `Email not implemented. Use code: ${code} or magic link: ${magicLink}`,
+              {
+                expirationTtl: 60,
+              },
+            );
           }
         },
       },

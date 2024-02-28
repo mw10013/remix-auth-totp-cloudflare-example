@@ -12,7 +12,8 @@ pnpm install
 
 - Get required `.dev.vars` environment variables for Cloudflare:
 
-This example uses [Resend](https://resend.com/overview) to send emails. You can create a free account and get your API key on [here](https://resend.com/api-keys).
+This example uses [Resend](https://resend.com/overview) to send emails. You can create a free account and get your API key [here](https://resend.com/api-keys).
+Or you can leave RESEND_API_KEY blank and the example will simulate sending emails.
 
 > **Note**
 > Remember to replace the current `.dev.vars.example` file with your own `.dev.vars` file.

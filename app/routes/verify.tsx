@@ -13,6 +13,7 @@ import { createServices } from "~/lib/services.server";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const {
+    env: { KV },
     auth: { authenticator, getSession, commitSession },
   } = createServices(context);
   await authenticator.isAuthenticated(request, {
@@ -24,9 +25,12 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
   if (!authEmail) return redirect("/login");
   const authError = session.get("auth:error");
 
+  // WARNING: To demo without implementing email so don't copy/past.
+  const simulateEmail = await KV.get(`simulateEmail:${authEmail}`);
+
   // Commit session to clear any `flash` error message.
   return json(
-    { authError },
+    { authError, simulateEmail },
     {
       headers: {
         "set-cookie": await commitSession(session),
@@ -47,7 +51,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
 }
 
 export default function Route() {
-  const { authError } = useLoaderData<typeof loader>();
+  const { authError, simulateEmail } = useLoaderData<typeof loader>();
   return (
     <div className="mx-auto max-w-sm p-8">
       <H3>Please check your inbox</H3>
@@ -58,6 +62,7 @@ export default function Route() {
         <Small className="mt-1 text-destructive">{authError?.message}</Small>
         <Button type="submit">Continue</Button>
       </Form>
+      <P>{simulateEmail}</P>
     </div>
   );
 }
