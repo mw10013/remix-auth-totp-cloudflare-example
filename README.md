@@ -1,4 +1,4 @@
-# Welcome to Remix Auth TOTP - Remix Auth TOTP Example
+# Welcome to Remix Auth TOTP - Remix Auth TOTP Cloudflare Example
 
 This repository is a simple example of how to use Remix Auth TOTP on Cloudflare.
 
