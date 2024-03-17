@@ -37,12 +37,3 @@ preview_database_id = "D1"
 migrations_table = "d1_migrations"
 migrations_dir = "drizzle"
 
-[vars]
-ENVIRONMENT = "development"
-
-[env.preview.vars]
-ENVIRONMENT = "preview"
-
-[env.prod.vars]
-ENVIRONMENT = "production"
-
