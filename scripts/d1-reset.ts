@@ -19,7 +19,7 @@ if (migrationFiles.length > 0) {
   // await $`pnpm d1:seed`;
 }
 
-const sqliteFiles = await glob("./.wrangler/**/*.sqlite");
+const sqliteFiles = await glob("./.wrangler/state/v3/d1/**/*.sqlite");
 console.log({ sqliteFiles });
 if (sqliteFiles.length !== 1) {
   console.error("Expected exactly one sqlite file under .wrangler");

@@ -7,7 +7,7 @@ import { $, glob } from "zx";
 // Ensure db created.
 await $`pnpm wrangler d1 execute local-d1-dev --local --command "select datetime('now');"`;
 
-const sqliteFiles = await glob("./.wrangler/**/*.sqlite");
+const sqliteFiles = await glob("./.wrangler/state/v3/d1/**/*.sqlite");
 console.log({ sqliteFiles });
 
 if (sqliteFiles.length !== 1) {
