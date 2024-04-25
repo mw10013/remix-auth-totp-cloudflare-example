@@ -1,7 +1,9 @@
 # development | preview | production
 ENVIRONMENT=development
 SESSION_SECRET=SESSION_SECRET
-TOTP_SECRET=TOTP_SECRET
+
+# 64 random hex characters
+TOTP_SECRET=
 
 # Leave blank if you want to simulate sending emails.
 RESEND_API_KEY=
